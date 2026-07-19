@@ -1,0 +1,393 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+
+:root {
+  --background: #050508;
+  --foreground: #ededed;
+}
+
+/* ─── Cosmic Background ─── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Deep space gradient overlay with nebula washes */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    /* Deep space base */
+    radial-gradient(ellipse 100% 80% at 50% 0%, #080812, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(20, 10, 50, 0.4), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(10, 5, 30, 0.3), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(5, 10, 30, 0.3), transparent 50%),
+    linear-gradient(180deg, #050508 0%, #0a0a18 30%, #080810 60%, #050508 100%);
+}
+
+/* ─── Nebula Clouds (fixed background blobs) ─── */
+.nebula {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  will-change: transform, opacity;
+  z-index: -1;
+}
+
+.nebula--purple {
+  background: radial-gradient(circle, rgba(100, 20, 180, 0.12), transparent 70%);
+  width: 600px;
+  height: 600px;
+  animation: nebula-drift 40s ease-in-out infinite alternate;
+}
+
+.nebula--blue {
+  background: radial-gradient(circle, rgba(20, 60, 180, 0.1), transparent 70%);
+  width: 500px;
+  height: 500px;
+  animation: nebula-drift 35s ease-in-out infinite alternate-reverse;
+}
+
+.nebula--teal {
+  background: radial-gradient(circle, rgba(10, 120, 150, 0.08), transparent 70%);
+  width: 450px;
+  height: 450px;
+  animation: nebula-drift 45s ease-in-out infinite alternate;
+}
+
+.nebula--pink {
+  background: radial-gradient(circle, rgba(180, 30, 80, 0.07), transparent 70%);
+  width: 400px;
+  height: 400px;
+  animation: nebula-drift 38s ease-in-out infinite alternate-reverse;
+}
+
+.nebula--gold {
+  background: radial-gradient(circle, rgba(180, 120, 20, 0.06), transparent 70%);
+  width: 350px;
+  height: 350px;
+  animation: nebula-drift 50s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  25%  { transform: translate(5%, 3%) scale(1.1); opacity: 0.7; }
+  50%  { transform: translate(-3%, 6%) scale(0.95); opacity: 0.5; }
+  75%  { transform: translate(4%, -2%) scale(1.05); opacity: 0.8; }
+  100% { transform: translate(-2%, 4%) scale(1.15); opacity: 0.6; }
+}
+
+/* ─── Planets ─── */
+.planet {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+  z-index: -1;
+}
+
+/* Gas Giant (Jupiter-like) */
+.planet--gas-giant {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(ellipse at 40% 40%, #c8a050, #8a6a30 30%, #5a4a20 60%, #3a2a10 100%);
+  box-shadow:
+    0 0 60px rgba(200, 160, 80, 0.08),
+    inset 0 -20px 40px rgba(0,0,0,0.4);
+  animation: planet-float 60s ease-in-out infinite alternate;
+}
+
+/* Ringed Planet (Saturn-like) */
+.planet--ringed {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(ellipse at 35% 35%, #e8d8b0, #c8b080 30%, #a08860 60%, #705840 100%);
+  box-shadow:
+    0 0 40px rgba(200, 180, 120, 0.08),
+    inset 0 -15px 30px rgba(0,0,0,0.4);
+  animation: planet-float 70s ease-in-out infinite alternate-reverse;
+}
+
+.planet--ringed::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 40px;
+  transform: translate(-50%, -50%) rotateX(70deg);
+  background: radial-gradient(ellipse, rgba(200, 180, 120, 0.15), rgba(200, 180, 120, 0.05) 50%, transparent 70%);
+  border-radius: 50%;
+  border: 1px solid rgba(200, 180, 120, 0.08);
+}
+
+/* Ice Planet (Neptune-like) */
+.planet--ice {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(ellipse at 30% 30%, #80c8e8, #4080a8 40%, #205070 70%, #103050 100%);
+  box-shadow:
+    0 0 40px rgba(60, 140, 200, 0.08),
+    inset 0 -10px 20px rgba(0,0,0,0.3);
+  animation: planet-float 55s ease-in-out infinite alternate;
+}
+
+/* Rocky Planet (Mars-like) */
+.planet--rocky {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(ellipse at 40% 30%, #e08050, #c06030 40%, #904020 70%, #602010 100%);
+  box-shadow:
+    0 0 30px rgba(200, 80, 40, 0.08),
+    inset 0 -8px 16px rgba(0,0,0,0.3);
+  animation: planet-float 45s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes planet-float {
+  0%   { transform: translate(0px, 0px) rotate(0deg); }
+  33%  { transform: translate(15px, -10px) rotate(1deg); }
+  66%  { transform: translate(-10px, 8px) rotate(-0.5deg); }
+  100% { transform: translate(8px, -5px) rotate(0.5deg); }
+}
+
+/* ─── Starfield ─── */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  animation: twinkle var(--duration, 4s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.star--large {
+  width: 3px;
+  height: 3px;
+  opacity: 0.9;
+}
+
+.star--small {
+  width: 1px;
+  height: 1px;
+  opacity: 0.4;
+}
+
+/* Glowing stars with colored halos */
+.star--glow-blue {
+  width: 3px;
+  height: 3px;
+  background: #aaccff;
+  box-shadow: 0 0 6px 2px rgba(100, 150, 255, 0.4);
+}
+
+.star--glow-red {
+  width: 2.5px;
+  height: 2.5px;
+  background: #ffaaaa;
+  box-shadow: 0 0 6px 2px rgba(255, 100, 100, 0.35);
+}
+
+.star--glow-gold {
+  width: 3px;
+  height: 3px;
+  background: #ffddaa;
+  box-shadow: 0 0 8px 3px rgba(255, 200, 100, 0.35);
+}
+
+.star--glow-white {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  box-shadow: 0 0 10px 4px rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Comet / Shooting Star ─── */
+.comet {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  animation: comet-streak 8s ease-in-out infinite;
+  animation-delay: var(--comet-delay, 2s);
+  top: var(--comet-top, 5%);
+  left: var(--comet-left, 60%);
+  opacity: 0;
+}
+
+.comet__head {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  right: 0;
+  top: -1.5px;
+  box-shadow:
+    0 0 6px 2px rgba(255, 255, 255, 0.3),
+    0 0 12px 4px rgba(200, 220, 255, 0.15);
+}
+
+.comet__tail {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(200, 220, 255, 0.2) 30%, transparent);
+}
+
+/* ─── Shooting stars ─── */
+.shooting-star {
+  position: fixed;
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.6));
+  transform: rotate(-35deg);
+  animation: shoot 6s ease-in-out infinite;
+  animation-delay: var(--shoot-delay, 3s);
+  z-index: -1;
+  pointer-events: none;
+  top: var(--shoot-top, 10%);
+  left: var(--shoot-left, 60%);
+}
+
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1.5px;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+/* ─── Galaxy Spiral (decorative) ─── */
+.galaxy-spiral {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  animation: spin-slow 120s linear infinite;
+}
+
+.galaxy-spiral--1 {
+  width: 800px;
+  height: 800px;
+  top: -200px;
+  right: -200px;
+  box-shadow:
+    0 0 80px rgba(100, 50, 180, 0.04),
+    inset 0 0 80px rgba(100, 50, 180, 0.02);
+}
+
+.galaxy-spiral--2 {
+  width: 500px;
+  height: 500px;
+  bottom: -100px;
+  left: -100px;
+  border-color: rgba(255, 255, 255, 0.02);
+  animation-duration: 180s;
+  animation-direction: reverse;
+  box-shadow:
+    0 0 60px rgba(50, 100, 180, 0.03),
+    inset 0 0 60px rgba(50, 100, 180, 0.02);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Animations ─── */
+@keyframes twinkle {
+  0%, 100% { opacity: var(--twinkle-min, 0.2); }
+  50% { opacity: var(--twinkle-max, 0.9); }
+}
+
+@keyframes shoot {
+  0% { transform: rotate(-35deg) translateX(0); opacity: 0; }
+  5% { opacity: 1; }
+  15% { transform: rotate(-35deg) translateX(-300px); opacity: 1; }
+  16%, 100% { transform: rotate(-35deg) translateX(-400px); opacity: 0; }
+}
+
+@keyframes comet-streak {
+  0%   { transform: rotate(-30deg) translateX(0); opacity: 0; }
+  2%   { opacity: 1; }
+  8%   { transform: rotate(-30deg) translateX(-400px); opacity: 1; }
+  10%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.6s ease-out forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* ─── Mouse tracking glow for cosmic interactivity ─── */
+@keyframes cosmic-glow {
+  0%   { opacity: 0.4; }
+  50%  { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
