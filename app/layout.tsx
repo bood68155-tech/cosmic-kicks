@@ -65,13 +65,7 @@ export default function RootLayout({
                 >
                   {item}
                 </a>
-              ))}
-              <a
-                href="/admin"
-                className="relative text-xs font-medium tracking-widest uppercase text-purple-400/60 transition-colors hover:text-purple-400 after:absolute after:-bottom-1 after:left-0 after:h-[1px] after:w-0 after:bg-purple-500/40 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                Admin
-              </a>
+              ))}
             </nav>
 
             {/* Cart icon */}
@@ -89,13 +83,7 @@ export default function RootLayout({
             >
               {item}
             </a>
-          ))}
-          <a
-            href="/admin"
-            className="text-[11px] font-medium tracking-widest uppercase text-purple-400/60 transition-colors hover:text-purple-400"
-          >
-            Admin
-          </a>
+          ))}
         </nav>
 
         <main className="flex-1">{children}</main>

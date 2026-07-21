@@ -7,6 +7,9 @@ import {
   Plus, Pencil, Trash2, Search, X, Save,
   LayoutDashboard, Package, Check, AlertCircle, ArrowUpDown,
 } from 'lucide-react';
+import { useAdminAuth } from '@/app/context/AdminAuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const emptyProduct = {
   name: '', category: 'sneakers' as const, price: 0,
@@ -18,6 +21,19 @@ const TIERS = ['stellar', 'nebula', 'supernova'] as const;
 const CATS: Record<string, string> = { sneakers: 'Sneakers', classic: 'Classics', boots: 'Boots' };
 
 function AdminContent() {
+  const { isLoggedIn } = useAdminAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/admin/login');
+    }
+  }, [isLoggedIn, router]);
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const { products, addProduct, updateProduct, deleteProduct, lastUpdated } = useAdmin();
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState<string>('name');

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { ShoppingBag, X, Minus, Plus, Trash2 } from 'lucide-react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 function QtyStepper({
   value,
@@ -245,15 +246,30 @@ export default function CartDrawer() {
                 ? 'Free shipping on this order!'
                 : `Add ${((300 - subtotal).toLocaleString())} more for free shipping`}
             </p>
-            <button
-              type="button"
-              onClick={() => {
-                alert('Checkout would be implemented here!');
-              }}
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.06] py-3 text-xs font-semibold uppercase tracking-widest text-white/80 transition-all hover:bg-white/[0.1] hover:text-white"
-            >
-              Checkout &mdash; ${subtotal.toLocaleString()}
-            </button>
+            <div className="mt-2">
+              <PayPalScriptProvider options={{ clientId: 'sb', components: 'buttons', currency: 'USD' }}>
+                <PayPalButtons
+                  style={{ layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal' }}
+                  createOrder={(_data: any, actions: any) => {
+                    return actions.order.create({
+                      purchase_units: [{
+                        amount: { value: subtotal.toFixed(2) },
+                        description: 'Cosmic Kicks Order',
+                      }],
+                    });
+                  }}
+                  onApprove={(_data: any, actions: any) => {
+                    return actions.order.capture().then(() => {
+                      alert('Payment successful! Thank you for your order.');
+                      clearCart();
+                    });
+                  }}
+                  onError={() => {
+                    alert('An error occurred during payment. Please try again.');
+                  }}
+                />
+              </PayPalScriptProvider>
+            </div>
             <button
               type="button"
               onClick={clearCart}
