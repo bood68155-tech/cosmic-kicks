@@ -23,7 +23,7 @@ function AdminContent() {
   const [sortKey, setSortKey] = useState<string>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
   const [modal, setModal] = useState<'add' | 'edit' | null>(null);
-  const [form, setForm] = useState(emptyProduct);
+  const [form, setForm] = useState<Omit<Product, 'id'>>(emptyProduct);
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ msg: string; type: string } | null>(null);
@@ -92,7 +92,7 @@ function AdminContent() {
       updateProduct(editId, form);
       showToast('Product updated');
     } else {
-      addProduct(form);
+      addProduct({ id: '', ...form });
       showToast('Product added');
     }
     setModal(null);
