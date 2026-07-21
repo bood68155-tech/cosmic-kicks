@@ -8,31 +8,68 @@ interface ProductCardProps {
   product: Product;
 }
 
-/* ─── Tier badge ─── */
+const TIER_CONFIG: Record<
+  Product['cosmicTier'],
+  { label: string; ring: string; text: string; bg: string; border: string }
+> = {
+  stellar: {
+    label: 'Stellar',
+    ring: 'ring-white/20',
+    text: 'text-white/80',
+    bg: 'bg-white/[0.06]',
+    border: 'border-white/10',
+  },
+  nebula: {
+    label: 'Nebula',
+    ring: 'ring-purple-500/30',
+    text: 'text-purple-300',
+    bg: 'bg-purple-500/10',
+    border: 'border-purple-500/20',
+  },
+  supernova: {
+    label: 'Supernova',
+    ring: 'ring-amber-500/30',
+    text: 'text-amber-300',
+    bg: 'bg-amber-500/10',
+    border: 'border-amber-500/20',
+  },
+};
+
 function TierBadge({ tier }: { tier: Product['cosmicTier'] }) {
-  const styles = {
-    stellar: 'border-blue-900/30 bg-blue-950/20 text-blue-300/60',
-    nebula: 'border-purple-900/30 bg-purple-950/20 text-purple-300/60',
-    supernova: 'border-amber-900/30 bg-amber-950/20 text-amber-300/60',
-  };
-
-  const labels = {
-    stellar: '✦ Stellar',
-    nebula: '✦ Nebula',
-    supernova: '✦ Supernova',
-  };
-
+  const cfg = TIER_CONFIG[tier];
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-medium tracking-wider uppercase ${styles[tier]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border ${cfg.border} ${cfg.bg} px-3 py-1 text-[10px] font-semibold uppercase tracking-widest ${cfg.text} ring-1 ${cfg.ring}`}
     >
-      {labels[tier]}
+      <span className="relative flex h-1.5 w-1.5">
+        <span
+          className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
+            tier === 'supernova'
+              ? 'bg-amber-400'
+              : tier === 'nebula'
+                ? 'bg-purple-400'
+                : 'bg-white/50'
+          }`}
+        />
+        <span
+          className={`relative inline-flex h-1.5 w-1.5 rounded-full ${
+            tier === 'supernova'
+              ? 'bg-amber-400'
+              : tier === 'nebula'
+                ? 'bg-purple-400'
+                : 'bg-white/70'
+          }`}
+        />
+      </span>
+      {cfg.label}
     </span>
   );
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const { addItem, openCart } = useCart();
 
   const handleAddToCart = () => {
@@ -44,119 +81,109 @@ export default function ProductCard({ product }: ProductCardProps) {
     <article
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.05]"
+      className={`group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-500 ${
+        isHovered
+          ? 'border-white/[0.12] bg-white/[0.04] shadow-2xl translate-y-[-2px]'
+          : 'hover:border-white/[0.08]'
+      }`}
     >
-      {/* Glow effect on hover — uses product accent colors */}
+      {/* Glow effect on hover */}
       <div
-        className={`pointer-events-none absolute -inset-[1px] rounded-2xl opacity-0 transition-opacity duration-700 ${
+        className={`pointer-events-none absolute -inset-12 opacity-0 transition-opacity duration-700 ${
           isHovered ? 'opacity-100' : ''
         }`}
         style={{
-          background: `radial-gradient(600px circle at 50% 50%, ${product.accent}15, transparent 40%)`,
+          background: `radial-gradient(600px circle at 50% 0%, ${product.accent}15 0%, transparent 70%)`,
         }}
       />
 
-      {/* Image area */}
-      <div className="relative flex items-center justify-center px-8 pt-10 pb-6">
-        <div className="relative w-full max-w-[200px]">
-          {/* Background glow — pulsing on hover */}
-          <div
-            className={`absolute inset-0 -top-4 -bottom-4 mx-auto w-3/4 rounded-full opacity-0 blur-3xl transition-all duration-700 ${
-              isHovered ? 'opacity-20 scale-110' : 'opacity-5'
-            }`}
-            style={{ background: `radial-gradient(circle, ${product.accent2 || product.accent}, transparent)` }}
+      {/* Product image */}
+      <div className="relative mb-4 flex items-center justify-center">
+        {/* Placeholder/shimmer */}
+        {!imageLoaded && !imageError && (
+          <div className="aspect-square w-full max-w-[260px] animate-pulse rounded-xl bg-white/[0.03]" />
+        )}
+        
+        {imageError ? (
+          <div className="flex aspect-square w-full max-w-[260px] items-center justify-center rounded-xl bg-white/[0.03]">
+            <span className="text-5xl opacity-30">
+              {product.category === 'sneakers' ? '👟' : product.category === 'boots' ? '👢' : '👞'}
+            </span>
+          </div>
+        ) : (
+          <img
+            src={product.image}
+            alt={product.name}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageError(true)}
+            className={`aspect-square w-full max-w-[260px] rounded-xl object-cover transition-all duration-700 ${
+              isHovered ? 'scale-105' : 'scale-100'
+            } ${imageLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+            loading="lazy"
           />
-          {/* SVG Shoe Silhouette */}
-          <div
-            className={`relative text-white/20 transition-all duration-700 ${
-              isHovered ? 'scale-105 text-white/30' : ''
-            }`}
-            role="img"
-            aria-label={`${product.name} shoe silhouette`}
-            dangerouslySetInnerHTML={{ __html: product.svg }}
-          />
+        )}
+
+        {/* Tier badge */}
+        <div className="absolute right-2 top-2">
+          <TierBadge tier={product.cosmicTier} />
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative flex flex-col gap-3 px-6 pb-6">
-        {/* Header: name + price + tier */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <h3 className="text-sm font-medium tracking-wide text-white/90">
-              {product.name}
-            </h3>
-            <span className="text-sm font-semibold tabular-nums text-white/70">
-              ${product.price}
-            </span>
-          </div>
-          <TierBadge tier={product.cosmicTier} />
+      {/* Product info */}
+      <div className="relative">
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <h3 className="text-base font-semibold text-white/90 transition-colors group-hover:text-white">
+            {product.name}
+          </h3>
+          <span
+            className="shrink-0 text-sm font-bold tabular-nums"
+            style={{ color: product.accent }}
+          >
+            ${product.price}
+          </span>
         </div>
 
-        {/* Description */}
-        <p className="text-xs leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50 line-clamp-2">
+        <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-white/40">
           {product.description}
         </p>
 
-        {/* Details list (revealed on hover) */}
+        {/* Details revealed on hover */}
         <div
-          className={`grid grid-cols-2 gap-x-3 gap-y-1 overflow-hidden transition-all duration-500 ${
-            isHovered ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'
+          className={`mb-4 space-y-1 overflow-hidden transition-all duration-500 ${
+            isHovered ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          {product.details.slice(0, 4).map((detail) => (
-            <span
-              key={detail}
-              className="flex items-center gap-1.5 text-[10px] leading-relaxed text-white/30"
-            >
+          {product.details.slice(0, 4).map((detail, i) => (
+            <div key={i} className="flex items-start gap-2 text-[11px] text-white/50">
               <span
-                className="inline-block h-1 w-1 rounded-full shrink-0"
-                style={{ background: product.accent }}
+                className="mt-0.5 block h-1 w-1 shrink-0 rounded-full"
+                style={{ backgroundColor: product.accent }}
               />
               {detail}
-            </span>
+            </div>
           ))}
+          <div className="pt-2 text-[10px] italic text-white/30">
+            {product.materials}
+          </div>
         </div>
-
-        {/* Materials tag (always visible) */}
-        <p className="text-[10px] leading-relaxed text-white/15 italic">
-          {product.materials}
-        </p>
 
         {/* Add to cart button */}
         <button
+          type="button"
           onClick={handleAddToCart}
-          aria-label={`Add ${product.name} to cart`}
-          className={`relative mt-1 flex h-10 w-full items-center justify-center gap-2 overflow-hidden rounded-xl border text-sm font-medium transition-all duration-500 ${
+          className={`relative w-full overflow-hidden rounded-xl border px-4 py-2.5 text-xs font-semibold uppercase tracking-widest transition-all duration-300 ${
             isHovered
-              ? 'border-white/20 bg-white/10 text-white'
-              : 'border-white/[0.06] bg-white/[0.02] text-white/40'
+              ? 'border-white/20 bg-white/[0.08] text-white shadow-lg'
+              : 'border-white/[0.06] bg-white/[0.03] text-white/60 hover:border-white/10 hover:bg-white/[0.05] hover:text-white/80'
           }`}
         >
           {/* Shine effect on hover */}
           <span
-            className={`absolute inset-0 transition-transform duration-700 ${
-              isHovered ? 'translate-x-full' : '-translate-x-full'
+            className={`pointer-events-none absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent transition-transform duration-700 ${
+              isHovered ? 'translate-x-full' : ''
             }`}
-            style={{
-              background: `linear-gradient(90deg, transparent, ${product.accent}20, transparent)`,
-            }}
           />
           <span className="relative z-10">Add to Cart</span>
-          <svg
-            className={`relative z-10 h-4 w-4 transition-transform duration-500 ${
-              isHovered ? 'translate-x-0.5' : ''
-            }`}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
         </button>
       </div>
     </article>

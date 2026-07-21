@@ -2,46 +2,40 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useCart } from '@/app/context/CartContext';
+import { ShoppingBag, X, Minus, Plus, Trash2 } from 'lucide-react';
 
-/* ─── Quantity Stepper ─── */
 function QtyStepper({
   value,
   onChange,
-  min = 1,
 }: {
   value: number;
   onChange: (v: number) => void;
-  min?: number;
 }) {
   return (
-    <div className="inline-flex items-center gap-0 overflow-hidden rounded-lg border border-white/[0.06]">
+    <div className="flex items-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.02]">
       <button
+        type="button"
         onClick={() => onChange(value - 1)}
-        disabled={value <= min}
-        className="flex h-7 w-7 items-center justify-center text-xs text-white/40 transition-colors hover:bg-white/[0.04] hover:text-white/70 disabled:cursor-not-allowed disabled:opacity-20"
+        className="flex h-7 w-7 items-center justify-center text-white/40 transition-colors hover:text-white/80"
         aria-label="Decrease quantity"
       >
-        <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <path d="M5 12h14" />
-        </svg>
+        <Minus size={12} />
       </button>
-      <span className="flex h-7 min-w-[2ch] items-center justify-center text-xs font-medium tabular-nums text-white/70">
+      <span className="min-w-[20px] text-center text-xs font-medium text-white/80 tabular-nums">
         {value}
       </span>
       <button
+        type="button"
         onClick={() => onChange(value + 1)}
-        className="flex h-7 w-7 items-center justify-center text-xs text-white/40 transition-colors hover:bg-white/[0.04] hover:text-white/70"
+        className="flex h-7 w-7 items-center justify-center text-white/40 transition-colors hover:text-white/80"
         aria-label="Increase quantity"
       >
-        <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <path d="M12 5v14" /><path d="M5 12h14" />
-        </svg>
+        <Plus size={12} />
       </button>
     </div>
   );
 }
 
-/* ─── Cart Item Row ─── */
 function CartItemRow({
   product,
   quantity,
@@ -49,57 +43,73 @@ function CartItemRow({
   onRemove,
   index,
 }: {
-  product: { id: string; name: string; price: number; accent: string; svg: string };
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+  };
   quantity: number;
-  onUpdateQuantity: (q: number) => void;
-  onRemove: () => void;
+  onUpdateQuantity: (id: string, qty: number) => void;
+  onRemove: (id: string) => void;
   index: number;
 }) {
   return (
     <div
-      className="group flex gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3 transition-all hover:border-white/[0.08] animate-fade-in-up"
-      style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'both' }}
+      className="flex animate-fadeInUp items-start gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3 opacity-0 transition-all duration-300"
+      style={{
+        animationDelay: `${index * 60}ms`,
+        animationFillMode: 'forwards',
+      }}
     >
-      {/* Mini shoe */}
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/[0.04] bg-white/[0.02] p-2">
-        <div
-          className="w-full text-white/20 transition-colors group-hover:text-white/30"
-          dangerouslySetInnerHTML={{ __html: product.svg }}
+      {/* Product image */}
+      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white/[0.03]">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-full w-full object-cover"
+          loading="lazy"
         />
       </div>
 
-      {/* Info */}
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
+      {/* Details */}
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="flex items-start justify-between gap-2">
-          <p className="truncate text-sm font-medium text-white/80">{product.name}</p>
+          <span className="truncate text-sm font-medium text-white/80">
+            {product.name}
+          </span>
           <button
-            onClick={onRemove}
-            className="shrink-0 p-0.5 text-white/20 transition-colors hover:text-red-400"
-            aria-label={`Remove ${product.name} from cart`}
+            type="button"
+            onClick={() => onRemove(product.id)}
+            className="shrink-0 text-white/20 transition-colors hover:text-red-400"
+            aria-label={`Remove ${product.name}`}
           >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-            </svg>
+            <Trash2 size={14} />
           </button>
         </div>
-        <p className="text-xs text-white/40">${product.price}</p>
+        <span className="text-xs text-white/40">
+          ${product.price} each
+        </span>
         <div className="mt-1 flex items-center justify-between">
-          <QtyStepper value={quantity} onChange={onUpdateQuantity} />
-          <p className="text-xs font-semibold tabular-nums text-white/60">
+          <QtyStepper
+            value={quantity}
+            onChange={(v) => onUpdateQuantity(product.id, v)}
+          />
+          <span className="text-sm font-semibold text-white/90 tabular-nums">
             ${(product.price * quantity).toLocaleString()}
-          </p>
+          </span>
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── Drawer ─── */
 export default function CartDrawer() {
   const {
     items,
-    itemCount,
     subtotal,
+    itemCount,
     isOpen,
     closeCart,
     updateQuantity,
@@ -107,155 +117,150 @@ export default function CartDrawer() {
     clearCart,
   } = useCart();
 
-  const panelRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const prevFocusRef = useRef<HTMLElement | null>(null);
 
-  /* Trap focus & body scroll when open */
-  useEffect(() => {
-    if (!isOpen) return;
-
-    prevFocusRef.current = document.activeElement as HTMLElement;
-    panelRef.current?.focus();
-
-    const original = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const handleKey = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeCart();
-    };
-    window.addEventListener('keydown', handleKey);
-
-    return () => {
-      document.body.style.overflow = original;
-      window.removeEventListener('keydown', handleKey);
-      prevFocusRef.current?.focus();
-    };
-  }, [isOpen, closeCart]);
-
-  /* Close on overlay click */
-  const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) closeCart();
     },
     [closeCart],
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      prevFocusRef.current = document.activeElement as HTMLElement;
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+      // Focus the drawer
+      setTimeout(() => drawerRef.current?.focus(), 100);
+    } else {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      prevFocusRef.current?.focus();
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, handleKeyDown]);
 
   return (
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${
+        className={`fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
-        onClick={handleOverlayClick}
+        onClick={closeCart}
         aria-hidden="true"
       />
 
-      {/* Panel */}
+      {/* Drawer */}
       <div
-        ref={panelRef}
+        ref={drawerRef}
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
         tabIndex={-1}
-        className={`fixed inset-y-0 right-0 z-[70] flex w-full max-w-md flex-col border-l border-white/[0.06] bg-[#0a0a0a] shadow-2xl outline-none transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`fixed right-0 top-0 z-[70] flex h-full w-full max-w-md flex-col border-l border-white/[0.06] bg-black/95 backdrop-blur-xl transition-transform duration-400 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* ─── Header ─── */}
+        {/* Header */}
         <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-4">
-          <div className="flex items-center gap-3">
-            <h2 className="text-sm font-semibold tracking-wide text-white/80">
-              Cart
+          <div className="flex items-center gap-2">
+            <ShoppingBag size={18} className="text-white/60" />
+            <h2 className="text-sm font-semibold text-white/90">
+              Your Cart
             </h2>
             {itemCount > 0 && (
-              <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-white/10 px-1.5 text-[11px] font-medium tabular-nums text-white/60">
+              <span className="rounded-full bg-white/[0.08] px-2 py-0.5 text-[10px] font-medium text-white/50 tabular-nums">
                 {itemCount}
               </span>
             )}
           </div>
           <button
+            type="button"
             onClick={closeCart}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.06] text-white/30 transition-all hover:border-white/[0.12] hover:text-white/60"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.06] text-white/40 transition-colors hover:border-white/10 hover:text-white/80"
             aria-label="Close cart"
           >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-            </svg>
+            <X size={16} />
           </button>
         </div>
 
-        {/* ─── Body ─── */}
-        {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6">
-            <span className="text-3xl opacity-30">🛸</span>
-            <p className="text-sm text-white/30">Your cart is floating in space</p>
-            <button
-              onClick={closeCart}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-2 text-xs font-medium text-white/40 transition-all hover:border-white/20 hover:text-white/60"
-            >
-              Continue shopping
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <div className="flex-1 space-y-2 overflow-y-auto px-6 py-4 scrollbar-thin">
-              {items.map((item, idx) => (
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+          {items.length === 0 ? (
+            <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03]">
+                <ShoppingBag size={28} className="text-white/20" />
+              </div>
+              <p className="text-sm text-white/40">Your cart is empty</p>
+              <p className="max-w-[200px] text-xs text-white/20">
+                Looks like you haven&apos;t added any cosmic kicks yet.
+              </p>
+              <button
+                type="button"
+                onClick={closeCart}
+                className="mt-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white/60 transition-colors hover:bg-white/[0.08] hover:text-white/80"
+              >
+                Continue shopping
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {items.map((item, i) => (
                 <CartItemRow
                   key={item.product.id}
-                  product={item.product}
+                  product={{
+                    id: item.product.id,
+                    name: item.product.name,
+                    price: item.product.price,
+                    image: item.product.image,
+                    category: item.product.category,
+                  }}
                   quantity={item.quantity}
-                  onUpdateQuantity={(q) => updateQuantity(item.product.id, q)}
-                  onRemove={() => removeItem(item.product.id)}
-                  index={idx}
+                  onUpdateQuantity={updateQuantity}
+                  onRemove={removeItem}
+                  index={i}
                 />
               ))}
             </div>
+          )}
+        </div>
 
-            {/* ─── Footer / Totals ─── */}
-            <div className="border-t border-white/[0.06] px-6 py-5">
-              {/* Subtotal */}
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-white/40">Subtotal</span>
-                <span className="font-semibold tabular-nums text-white/80">
-                  ${subtotal.toLocaleString()}
-                </span>
-              </div>
-
-              {/* Shipping note */}
-              <p className="mt-1 text-[11px] text-white/20">
-                {subtotal >= 300
-                  ? '✨ Free orbit shipping'
-                  : `Add $${(300 - subtotal).toLocaleString()} more for free orbit shipping`}
-              </p>
-
-              {/* Checkout button */}
-              <button
-                onClick={() => {
-                  /* Placeholder — wire to your payment gateway */
-                  alert(
-                    `Checkout — Total: $${subtotal.toLocaleString()}\n\nThis is a demo. Connect a payment provider to complete orders.`,
-                  );
-                }}
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 text-sm font-medium text-white/80 backdrop-blur-sm transition-all hover:border-white/25 hover:bg-white/[0.13] hover:text-white"
-              >
-                Checkout
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Clear cart */}
-              <button
-                onClick={clearCart}
-                className="mt-3 flex w-full items-center justify-center gap-1.5 text-xs text-white/20 transition-colors hover:text-white/40"
-              >
-                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                  <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                </svg>
-                Clear cart
-              </button>
+        {/* Footer */}
+        {items.length > 0 && (
+          <div className="border-t border-white/[0.06] px-6 py-4">
+            <div className="mb-3 flex items-center justify-between text-sm">
+              <span className="text-white/50">Subtotal</span>
+              <span className="font-semibold text-white/90 tabular-nums">
+                ${subtotal.toLocaleString()}
+              </span>
             </div>
+            <p className="mb-4 text-[11px] text-white/30">
+              {subtotal >= 300
+                ? 'Free shipping on this order!'
+                : `Add ${((300 - subtotal).toLocaleString())} more for free shipping`}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                alert('Checkout would be implemented here!');
+              }}
+              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.06] py-3 text-xs font-semibold uppercase tracking-widest text-white/80 transition-all hover:bg-white/[0.1] hover:text-white"
+            >
+              Checkout &mdash; ${subtotal.toLocaleString()}
+            </button>
+            <button
+              type="button"
+              onClick={clearCart}
+              className="mt-2 w-full text-center text-[11px] text-white/20 transition-colors hover:text-white/50"
+            >
+              Clear cart
+            </button>
           </div>
         )}
       </div>
