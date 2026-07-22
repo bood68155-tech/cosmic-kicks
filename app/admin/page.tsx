@@ -121,7 +121,7 @@ function AdminContent() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#050508] text-[#ededed]">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -248,7 +248,7 @@ function AdminContent() {
           onClick={() => setModal(null)}
         >
           <div
-            className="w-full max-w-lg rounded-2xl border border-white/[0.08] bg-black/90 p-6 shadow-2xl"
+            className="w-full max-w-lg rounded-2xl border border-white/[0.08] bg-[#050508]/95 p-6 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -402,7 +402,7 @@ function AdminContent() {
           onClick={() => setDeleteId(null)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl border border-white/[0.08] bg-black/90 p-6 shadow-2xl"
+            className="w-full max-w-sm rounded-2xl border border-white/[0.08] bg-[#050508]/95 p-6 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <AlertCircle className="mx-auto mb-4 h-10 w-10 text-red-400" />

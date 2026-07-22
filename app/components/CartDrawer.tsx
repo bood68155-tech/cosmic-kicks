@@ -164,7 +164,7 @@ export default function CartDrawer() {
         aria-modal="true"
         aria-label="Shopping cart"
         tabIndex={-1}
-        className={`fixed right-0 top-0 z-[70] flex h-full w-full max-w-md flex-col border-l border-white/[0.06] bg-black/95 backdrop-blur-xl transition-transform duration-400 ease-out ${
+        className={`fixed right-0 top-0 z-[70] flex h-full w-full max-w-md flex-col border-l border-white/[0.06] bg-[#050508]/95 backdrop-blur-xl transition-transform duration-400 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -241,7 +241,7 @@ export default function CartDrawer() {
                 ${subtotal.toLocaleString()}
               </span>
             </div>
-            <p className="mb-4 text-[11px] text-white/30">
+            <p className="mb-4 text-[11px] text-white/45">
               {subtotal >= 300
                 ? 'Free shipping on this order!'
                 : `Add ${((300 - subtotal).toLocaleString())} more for free shipping`}

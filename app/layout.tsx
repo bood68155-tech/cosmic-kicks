@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="relative flex min-h-full flex-col font-sans">
+      <body className="relative flex min-h-full flex-col font-sans bg-[#050508] text-[#ededed]">
         <StarField />
         <CartProvider>
           <header className="glass-nav sticky top-0 z-50">
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   ))}
                   <Link href="/admin" className="text-[11px] font-medium uppercase tracking-widest text-white/20 transition-colors hover:text-white/40">Admin</Link>
                 </div>
-                <p className="text-xs text-white/20">Designed on Earth. Inspired by the stars. © 2026</p>
+                <p className="text-xs text-white/40">Designed on Earth. Inspired by the stars. © 2026</p>
               </div>
             </div>
           </footer>

@@ -64,7 +64,7 @@ export default function Home() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/35 sm:text-lg">
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/55 sm:text-lg">
             Premium footwear forged for the cosmos. Each pair is engineered at the
             intersection of earthly craftsmanship and celestial ambition.
           </p>
@@ -98,7 +98,7 @@ export default function Home() {
             { label: 'Delivery', value: 'Free Orbit' },
           ].map((stat) => (
             <div key={stat.label}>
-              <p className="text-xs font-medium tracking-widest uppercase text-white/20">
+              <p className="text-xs font-medium tracking-widest uppercase text-white/40">
                 {stat.label}
               </p>
               <p className="mt-1 text-lg font-light text-white/60">{stat.value}</p>
@@ -133,10 +133,10 @@ export default function Home() {
               <p className="mt-2 text-sm font-medium tracking-wide text-white/40">
                 {category.tagline}
               </p>
-              <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/25">
+              <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/45">
                 {category.description}
               </p>
-              <p className="mt-2 text-xs text-white/15">
+              <p className="mt-2 text-xs text-white/40">
                 {categoryProducts.length} styles available
               </p>
             </div>
@@ -167,7 +167,7 @@ export default function Home() {
           <h2 className="mt-4 text-2xl font-light text-white/70 sm:text-3xl">
             Ready for lift-off?
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/30">
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/50">
             Join the Cosmic Kicks community and be the first to know about
             limited drops, celestial collaborations, and interstellar restocks.
           </p>
