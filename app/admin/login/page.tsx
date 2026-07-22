@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
-          <p className="mt-4 text-center text-[11px] text-white/20">
+          <p className="mt-4 text-center text-[11px] text-white/40">
             Demo credentials: admin / admin123
           </p>
         </form>
