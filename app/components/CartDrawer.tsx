@@ -58,7 +58,7 @@ function CartItemRow({
 }) {
   return (
     <div
-      className="flex animate-fadeInUp items-start gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3 opacity-0 transition-all duration-300"
+      className="flex animate-fade-in-up items-start gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3 opacity-0 transition-all duration-300"
       style={{
         animationDelay: `${index * 60}ms`,
         animationFillMode: 'forwards',

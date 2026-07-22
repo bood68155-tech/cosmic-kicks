@@ -1,393 +1,185 @@
+/* ═══════════════════════════════════════════════════════
+   COSMIC KICKS — Open Design System
+   Dark-Space Palette · Glassmorphism · Typography
+   ═══════════════════════════════════════════════════════ */
+
 @import "tailwindcss";
 
+/* ─── Google Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════ */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── Space Background Palette ── */
+  --color-space-black: #050508;
+  --color-space-dark: #0a0a18;
+  --color-space-mid: #12122a;
+  --color-space-light: #1a1a3e;
+  --color-space-surface: #151528;
+  --color-space-elevated: #1e1e38;
+
+  /* ── Cosmic Accent Palette ── */
+  --color-cosmic-purple: #8b5cf6;
+  --color-cosmic-pink: #ec4899;
+  --color-cosmic-cyan: #06b6d4;
+  --color-cosmic-gold: #f59e0b;
+  --color-cosmic-blue: #3b82f6;
+  --color-cosmic-teal: #14b8a6;
+  --color-cosmic-violet: #6d28d9;
+  --color-cosmic-rose: #f43f5e;
+  --color-cosmic-amber: #d97706;
+
+  /* ── Glassmorphism Tokens ── */
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --color-glass-bg-active: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
+  --color-glass-border-hover: rgba(255, 255, 255, 0.12);
+  --color-glass-border-active: rgba(255, 255, 255, 0.2);
+  --color-glass-light: rgba(255, 255, 255, 0.04);
+  --color-glass-strong: rgba(255, 255, 255, 0.08);
+
+  /* ── Text Tokens ── */
+  --color-text-primary: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-text-tertiary: rgba(255, 255, 255, 0.4);
+  --color-text-muted: rgba(255, 255, 255, 0.25);
+  --color-text-disabled: rgba(255, 255, 255, 0.15);
+
+  /* ── Fonts ── */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Background / Foreground ── */
+  --color-background: #050508;
+  --color-foreground: #ededed;
+
+  /* ── Animation Tokens ── */
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-fade-in-scale: fadeInScale 0.6s ease-out forwards;
+  --animate-slide-up: slideUp 0.4s ease-out forwards;
+  --animate-slide-in-right: slideInRight 0.4s ease-out forwards;
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-spin-slow: spinSlow 120s linear infinite;
+  --animate-nebula-drift: nebulaDrift 40s ease-in-out infinite alternate;
 }
 
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.08) transparent;
-}
 
-:root {
-  --background: #050508;
-  --foreground: #ededed;
-}
+.glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+.glass-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); box-shadow: 0 12px 40px rgba(0,0,0,0.4); transform: translateY(-2px); }
+.glass-card--interactive { cursor: pointer; }
+.glass-card--interactive:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 
-/* ─── Cosmic Background ─── */
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+.glass-nav { background: rgba(5,5,8,0.6); border-bottom: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.glass-nav--solid { background: rgba(5,5,8,0.85); border-bottom: 1px solid rgba(255,255,255,0.06); }
 
-/* Deep space gradient overlay with nebula washes */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    /* Deep space base */
-    radial-gradient(ellipse 100% 80% at 50% 0%, #080812, transparent 60%),
-    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(20, 10, 50, 0.4), transparent 50%),
-    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(10, 5, 30, 0.3), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(5, 10, 30, 0.3), transparent 50%),
-    linear-gradient(180deg, #050508 0%, #0a0a18 30%, #080810 60%, #050508 100%);
-}
+.btn-glass { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: 12px; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor: pointer; position: relative; overflow: hidden; }
+.btn-glass:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.btn-primary { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.3); color: rgba(139,92,246,0.9); }
+.btn-primary:hover { background: rgba(139,92,246,0.3); border-color: rgba(139,92,246,0.5); color: #fff; box-shadow: 0 4px 24px rgba(139,92,246,0.25); }
+.btn-danger { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.25); color: rgba(239,68,68,0.8); }
+.btn-danger:hover { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.4); color: #fff; box-shadow: 0 4px 24px rgba(239,68,68,0.2); }
+.btn-ghost { background: transparent; border-color: transparent; color: rgba(255,255,255,0.4); }
+.btn-ghost:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
 
-/* ─── Nebula Clouds (fixed background blobs) ─── */
-.nebula {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
-  will-change: transform, opacity;
-  z-index: -1;
-}
+.glass-input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; color: rgba(255,255,255,0.8); font-size: 0.875rem; outline: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+.glass-input::placeholder { color: rgba(255,255,255,0.2); }
+.glass-input:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
+.glass-input:focus { border-color: rgba(139,92,246,0.4); box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+.glass-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; font-size: 0.625rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.glass-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); transition: all 0.3s; cursor: default; }
+.glass-chip--active { background: rgba(139,92,246,0.15); border-color: rgba(139,92,246,0.3); color: rgba(139,92,246,0.9); }
+.glass-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.glass-modal { width: 100%; max-width: 28rem; background: rgba(5,5,8,0.92); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.glass-drawer { background: rgba(5,5,8,0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-left: 1px solid rgba(255,255,255,0.06); }
 
-.nebula--purple {
-  background: radial-gradient(circle, rgba(100, 20, 180, 0.12), transparent 70%);
-  width: 600px;
-  height: 600px;
-  animation: nebula-drift 40s ease-in-out infinite alternate;
-}
+.text-gradient { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.6)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.text-gradient--cosmic { background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.glow-purple { box-shadow: 0 0 20px rgba(139,92,246,0.15), 0 0 60px rgba(139,92,246,0.05); }
+.shine-effect { position: relative; overflow: hidden; }
+.shine-effect::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 55%, transparent 60%); transform: translateX(-100%); transition: transform 0.6s; }
+.shine-effect:hover::after { transform: translateX(100%); }
 
-.nebula--blue {
-  background: radial-gradient(circle, rgba(20, 60, 180, 0.1), transparent 70%);
-  width: 500px;
-  height: 500px;
-  animation: nebula-drift 35s ease-in-out infinite alternate-reverse;
-}
 
-.nebula--teal {
-  background: radial-gradient(circle, rgba(10, 120, 150, 0.08), transparent 70%);
-  width: 450px;
-  height: 450px;
-  animation: nebula-drift 45s ease-in-out infinite alternate;
-}
+.glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+.glass-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); box-shadow: 0 12px 40px rgba(0,0,0,0.4); transform: translateY(-2px); }
+.glass-card--interactive { cursor: pointer; }
+.glass-card--interactive:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 
-.nebula--pink {
-  background: radial-gradient(circle, rgba(180, 30, 80, 0.07), transparent 70%);
-  width: 400px;
-  height: 400px;
-  animation: nebula-drift 38s ease-in-out infinite alternate-reverse;
-}
+.glass-nav { background: rgba(5,5,8,0.6); border-bottom: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.glass-nav--solid { background: rgba(5,5,8,0.85); border-bottom: 1px solid rgba(255,255,255,0.06); }
 
-.nebula--gold {
-  background: radial-gradient(circle, rgba(180, 120, 20, 0.06), transparent 70%);
-  width: 350px;
-  height: 350px;
-  animation: nebula-drift 50s ease-in-out infinite alternate;
-}
+.btn-glass { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: 12px; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor: pointer; position: relative; overflow: hidden; }
+.btn-glass:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.btn-primary { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.3); color: rgba(139,92,246,0.9); }
+.btn-primary:hover { background: rgba(139,92,246,0.3); border-color: rgba(139,92,246,0.5); color: #fff; box-shadow: 0 4px 24px rgba(139,92,246,0.25); }
+.btn-danger { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.25); color: rgba(239,68,68,0.8); }
+.btn-danger:hover { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.4); color: #fff; box-shadow: 0 4px 24px rgba(239,68,68,0.2); }
+.btn-ghost { background: transparent; border-color: transparent; color: rgba(255,255,255,0.4); }
+.btn-ghost:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
 
-@keyframes nebula-drift {
-  0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
-  25%  { transform: translate(5%, 3%) scale(1.1); opacity: 0.7; }
-  50%  { transform: translate(-3%, 6%) scale(0.95); opacity: 0.5; }
-  75%  { transform: translate(4%, -2%) scale(1.05); opacity: 0.8; }
-  100% { transform: translate(-2%, 4%) scale(1.15); opacity: 0.6; }
-}
+.glass-input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; color: rgba(255,255,255,0.8); font-size: 0.875rem; outline: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+.glass-input::placeholder { color: rgba(255,255,255,0.2); }
+.glass-input:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
+.glass-input:focus { border-color: rgba(139,92,246,0.4); box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+.glass-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; font-size: 0.625rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.glass-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); transition: all 0.3s; cursor: default; }
+.glass-chip--active { background: rgba(139,92,246,0.15); border-color: rgba(139,92,246,0.3); color: rgba(139,92,246,0.9); }
+.glass-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.glass-modal { width: 100%; max-width: 28rem; background: rgba(5,5,8,0.92); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.glass-drawer { background: rgba(5,5,8,0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-left: 1px solid rgba(255,255,255,0.06); }
 
-/* ─── Planets ─── */
-.planet {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-  z-index: -1;
-}
+.text-gradient { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.6)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.text-gradient--cosmic { background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.glow-purple { box-shadow: 0 0 20px rgba(139,92,246,0.15), 0 0 60px rgba(139,92,246,0.05); }
+.shine-effect { position: relative; overflow: hidden; }
+.shine-effect::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 55%, transparent 60%); transform: translateX(-100%); transition: transform 0.6s; }
+.shine-effect:hover::after { transform: translateX(100%); }
 
-/* Gas Giant (Jupiter-like) */
-.planet--gas-giant {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(ellipse at 40% 40%, #c8a050, #8a6a30 30%, #5a4a20 60%, #3a2a10 100%);
-  box-shadow:
-    0 0 60px rgba(200, 160, 80, 0.08),
-    inset 0 -20px 40px rgba(0,0,0,0.4);
-  animation: planet-float 60s ease-in-out infinite alternate;
-}
 
-/* Ringed Planet (Saturn-like) */
-.planet--ringed {
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(ellipse at 35% 35%, #e8d8b0, #c8b080 30%, #a08860 60%, #705840 100%);
-  box-shadow:
-    0 0 40px rgba(200, 180, 120, 0.08),
-    inset 0 -15px 30px rgba(0,0,0,0.4);
-  animation: planet-float 70s ease-in-out infinite alternate-reverse;
-}
+/* Nebula Clouds */
+.nebula { position: fixed; border-radius: 50%; pointer-events: none; filter: blur(80px); will-change: transform, opacity; z-index: -1; }
+.nebula--purple { background: radial-gradient(circle, rgba(100,20,180,0.12), transparent 70%); width: 600px; height: 600px; animation: nebulaDrift 40s ease-in-out infinite alternate; }
+.nebula--blue { background: radial-gradient(circle, rgba(20,60,180,0.1), transparent 70%); width: 500px; height: 500px; animation: nebulaDrift 35s ease-in-out infinite alternate-reverse; }
+.nebula--teal { background: radial-gradient(circle, rgba(10,120,150,0.08), transparent 70%); width: 450px; height: 450px; animation: nebulaDrift 45s ease-in-out infinite alternate; }
+.nebula--pink { background: radial-gradient(circle, rgba(180,30,80,0.07), transparent 70%); width: 400px; height: 400px; animation: nebulaDrift 38s ease-in-out infinite alternate-reverse; }
+.nebula--gold { background: radial-gradient(circle, rgba(180,120,20,0.06), transparent 70%); width: 350px; height: 350px; animation: nebulaDrift 50s ease-in-out infinite alternate; }
 
-.planet--ringed::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 220px;
-  height: 40px;
-  transform: translate(-50%, -50%) rotateX(70deg);
-  background: radial-gradient(ellipse, rgba(200, 180, 120, 0.15), rgba(200, 180, 120, 0.05) 50%, transparent 70%);
-  border-radius: 50%;
-  border: 1px solid rgba(200, 180, 120, 0.08);
-}
+/* Planets */
+.planet { position: fixed; border-radius: 50%; pointer-events: none; will-change: transform; z-index: -1; }
+.planet--gas-giant { width: 180px; height: 180px; background: radial-gradient(ellipse at 40% 40%, #c8a050, #8a6a30 30%, #5a4a20 60%, #3a2a10 100%); box-shadow: 0 0 60px rgba(200,160,80,0.08), inset 0 -20px 40px rgba(0,0,0,0.4); animation: float 60s ease-in-out infinite alternate; }
+.planet--ringed { width: 100px; height: 100px; background: radial-gradient(ellipse at 35% 35%, #e8d8b0, #c8b080 30%, #a08860 60%, #705840 100%); box-shadow: 0 0 40px rgba(200,180,120,0.08), inset 0 -15px 30px rgba(0,0,0,0.4); animation: float 70s ease-in-out infinite alternate-reverse; }
+.planet--ringed::before { content: ''; position: absolute; top: 50%; left: 50%; width: 220px; height: 40px; transform: translate(-50%,-50%) rotateX(70deg); background: radial-gradient(ellipse, rgba(200,180,120,0.15), rgba(200,180,120,0.05) 50%, transparent 70%); border-radius: 50%; border: 1px solid rgba(200,180,120,0.08); }
+.planet--ice { width: 80px; height: 80px; background: radial-gradient(ellipse at 30% 30%, #80c8e8, #4080a8 40%, #205070 70%, #103050 100%); box-shadow: 0 0 40px rgba(60,140,200,0.08), inset 0 -10px 20px rgba(0,0,0,0.3); animation: float 55s ease-in-out infinite alternate; }
+.planet--rocky { width: 60px; height: 60px; background: radial-gradient(ellipse at 40% 30%, #e08050, #c06030 40%, #904020 70%, #602010 100%); box-shadow: 0 0 30px rgba(200,80,40,0.08), inset 0 -8px 16px rgba(0,0,0,0.3); animation: float 45s ease-in-out infinite alternate-reverse; }
 
-/* Ice Planet (Neptune-like) */
-.planet--ice {
-  width: 80px;
-  height: 80px;
-  background: radial-gradient(ellipse at 30% 30%, #80c8e8, #4080a8 40%, #205070 70%, #103050 100%);
-  box-shadow:
-    0 0 40px rgba(60, 140, 200, 0.08),
-    inset 0 -10px 20px rgba(0,0,0,0.3);
-  animation: planet-float 55s ease-in-out infinite alternate;
-}
+/* Starfield */
+.stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: twinkle var(--duration) ease-in-out infinite; animation-delay: var(--delay); }
+.star--large { width: 3px; height: 3px; }
+.star--small { width: 1px; height: 1px; }
+.star--glow-blue { width: 3px; height: 3px; background: #aaccff; box-shadow: 0 0 6px 2px rgba(100,150,255,0.4); }
+.star--glow-red { width: 2.5px; height: 2.5px; background: #ffaaaa; box-shadow: 0 0 6px 2px rgba(255,100,100,0.35); }
+.star--glow-gold { width: 3px; height: 3px; background: #ffddaa; box-shadow: 0 0 8px 3px rgba(255,200,100,0.35); }
+.star--glow-white { width: 4px; height: 4px; background: #fff; box-shadow: 0 0 10px 4px rgba(255,255,255,0.3); }
+.comet { position: fixed; pointer-events: none; z-index: -1; animation: comet-streak 8s ease-in-out infinite; animation-delay: var(--comet-delay); top: var(--comet-top); left: var(--comet-left); }
+.comet__head { position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; right: 0; top: -1.5px; box-shadow: 0 0 6px 2px rgba(255,255,255,0.3), 0 0 12px 4px rgba(200,220,255,0.15); }
+.comet__tail { width: 200px; height: 1px; background: linear-gradient(to left, rgba(255,255,255,0.8), rgba(200,220,255,0.2) 30%, transparent); }
+.shooting-star { position: fixed; width: 150px; height: 1px; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.6)); transform: rotate(-35deg); animation: shoot 6s ease-in-out infinite; animation-delay: var(--shoot-delay); z-index: -1; pointer-events: none; top: var(--shoot-top); left: var(--shoot-left); }
+.shooting-star::after { content: ''; position: absolute; right: 0; top: -1.5px; width: 4px; height: 4px; background: #fff; border-radius: 50%; filter: blur(1px); }
+.galaxy-spiral { position: fixed; pointer-events: none; z-index: -1; border-radius: 50%; border: 1px solid rgba(255,255,255,0.03); animation: spinSlow 120s linear infinite; }
+.galaxy-spiral--1 { width: 800px; height: 800px; top: -200px; right: -200px; box-shadow: 0 0 80px rgba(100,50,180,0.04), inset 0 0 80px rgba(100,50,180,0.02); }
+.galaxy-spiral--2 { width: 500px; height: 500px; bottom: -100px; left: -100px; border-color: rgba(255,255,255,0.02); animation-duration: 180s; animation-direction: reverse; box-shadow: 0 0 60px rgba(50,100,180,0.03), inset 0 0 60px rgba(50,100,180,0.02); }
 
-/* Rocky Planet (Mars-like) */
-.planet--rocky {
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(ellipse at 40% 30%, #e08050, #c06030 40%, #904020 70%, #602010 100%);
-  box-shadow:
-    0 0 30px rgba(200, 80, 40, 0.08),
-    inset 0 -8px 16px rgba(0,0,0,0.3);
-  animation: planet-float 45s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes planet-float {
-  0%   { transform: translate(0px, 0px) rotate(0deg); }
-  33%  { transform: translate(15px, -10px) rotate(1deg); }
-  66%  { transform: translate(-10px, 8px) rotate(-0.5deg); }
-  100% { transform: translate(8px, -5px) rotate(0.5deg); }
-}
-
-/* ─── Starfield ─── */
-.stars {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  animation: twinkle var(--duration, 4s) ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
-}
-
-.star--large {
-  width: 3px;
-  height: 3px;
-  opacity: 0.9;
-}
-
-.star--small {
-  width: 1px;
-  height: 1px;
-  opacity: 0.4;
-}
-
-/* Glowing stars with colored halos */
-.star--glow-blue {
-  width: 3px;
-  height: 3px;
-  background: #aaccff;
-  box-shadow: 0 0 6px 2px rgba(100, 150, 255, 0.4);
-}
-
-.star--glow-red {
-  width: 2.5px;
-  height: 2.5px;
-  background: #ffaaaa;
-  box-shadow: 0 0 6px 2px rgba(255, 100, 100, 0.35);
-}
-
-.star--glow-gold {
-  width: 3px;
-  height: 3px;
-  background: #ffddaa;
-  box-shadow: 0 0 8px 3px rgba(255, 200, 100, 0.35);
-}
-
-.star--glow-white {
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  box-shadow: 0 0 10px 4px rgba(255, 255, 255, 0.3);
-}
-
-/* ─── Comet / Shooting Star ─── */
-.comet {
-  position: fixed;
-  pointer-events: none;
-  z-index: -1;
-  animation: comet-streak 8s ease-in-out infinite;
-  animation-delay: var(--comet-delay, 2s);
-  top: var(--comet-top, 5%);
-  left: var(--comet-left, 60%);
-  opacity: 0;
-}
-
-.comet__head {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  border-radius: 50%;
-  right: 0;
-  top: -1.5px;
-  box-shadow:
-    0 0 6px 2px rgba(255, 255, 255, 0.3),
-    0 0 12px 4px rgba(200, 220, 255, 0.15);
-}
-
-.comet__tail {
-  width: 200px;
-  height: 1px;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(200, 220, 255, 0.2) 30%, transparent);
-}
-
-/* ─── Shooting stars ─── */
-.shooting-star {
-  position: fixed;
-  width: 150px;
-  height: 1px;
-  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.6));
-  transform: rotate(-35deg);
-  animation: shoot 6s ease-in-out infinite;
-  animation-delay: var(--shoot-delay, 3s);
-  z-index: -1;
-  pointer-events: none;
-  top: var(--shoot-top, 10%);
-  left: var(--shoot-left, 60%);
-}
-
-.shooting-star::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: -1.5px;
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  border-radius: 50%;
-  filter: blur(1px);
-}
-
-/* ─── Galaxy Spiral (decorative) ─── */
-.galaxy-spiral {
-  position: fixed;
-  pointer-events: none;
-  z-index: -1;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  animation: spin-slow 120s linear infinite;
-}
-
-.galaxy-spiral--1 {
-  width: 800px;
-  height: 800px;
-  top: -200px;
-  right: -200px;
-  box-shadow:
-    0 0 80px rgba(100, 50, 180, 0.04),
-    inset 0 0 80px rgba(100, 50, 180, 0.02);
-}
-
-.galaxy-spiral--2 {
-  width: 500px;
-  height: 500px;
-  bottom: -100px;
-  left: -100px;
-  border-color: rgba(255, 255, 255, 0.02);
-  animation-duration: 180s;
-  animation-direction: reverse;
-  box-shadow:
-    0 0 60px rgba(50, 100, 180, 0.03),
-    inset 0 0 60px rgba(50, 100, 180, 0.02);
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* ─── Animations ─── */
-@keyframes twinkle {
-  0%, 100% { opacity: var(--twinkle-min, 0.2); }
-  50% { opacity: var(--twinkle-max, 0.9); }
-}
-
-@keyframes shoot {
-  0% { transform: rotate(-35deg) translateX(0); opacity: 0; }
-  5% { opacity: 1; }
-  15% { transform: rotate(-35deg) translateX(-300px); opacity: 1; }
-  16%, 100% { transform: rotate(-35deg) translateX(-400px); opacity: 0; }
-}
-
-@keyframes comet-streak {
-  0%   { transform: rotate(-30deg) translateX(0); opacity: 0; }
-  2%   { opacity: 1; }
-  8%   { transform: rotate(-30deg) translateX(-400px); opacity: 1; }
-  10%  { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.animate-fade-in-scale {
-  animation: fadeInScale 0.6s ease-out forwards;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50%      { opacity: 0.7; transform: scale(1.05); }
-}
-
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* ─── Selection ─── */
-::selection {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-
-/* ─── Mouse tracking glow for cosmic interactivity ─── */
-@keyframes cosmic-glow {
-  0%   { opacity: 0.4; }
-  50%  { opacity: 0.8; }
-  100% { opacity: 0.4; }
-}
+/* Keyframe Animations */
+@keyframes twinkle { 0%,100% { opacity: var(--twinkle-min,0.2); } 50% { opacity: var(--twinkle-max,0.9); } }
+@keyframes shoot { 0% { transform: rotate(-35deg) translateX(0); opacity: 0; } 5% { opacity: 1; } 15% { transform: rotate(-35deg) translateX(-300px); opacity: 1; } 16%,100% { transform: rotate(-35deg) translateX(-400px); opacity: 0; } }
+@keyframes comet-streak { 0% { transform: rotate(-30deg) translateX(0); opacity: 0; } 2% { opacity: 1; } 8% { transform: rotate(-30deg) translateX(-400px); opacity: 1; } 10% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes float { 0% { transform: translate(0px,0px) rotate(0deg); } 33% { transform: translate(15px,-10px) rotate(1deg); } 66% { transform: translate(-10px,8px) rotate(-0.5deg); } 100% { transform: translate(8px,-5px) rotate(0.5deg); } }
