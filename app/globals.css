@@ -147,3 +147,431 @@
 @keyframes shoot { 0% { transform: rotate(-35deg) translateX(0); opacity: 0; } 5% { opacity: 1; } 15% { transform: rotate(-35deg) translateX(-300px); opacity: 1; } 16%,100% { transform: rotate(-35deg) translateX(-400px); opacity: 0; } }
 @keyframes comet-streak { 0% { transform: rotate(-30deg) translateX(0); opacity: 0; } 2% { opacity: 1; } 8% { transform: rotate(-30deg) translateX(-400px); opacity: 1; } 10% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes float { 0% { transform: translate(0px,0px) rotate(0deg); } 33% { transform: translate(15px,-10px) rotate(1deg); } 66% { transform: translate(-10px,8px) rotate(-0.5deg); } 100% { transform: translate(8px,-5px) rotate(0.5deg); } }
+
+/* ═══════════════════════════════════════════════════════
+   HERO SHOWCASE — Crystal Prism · Field Note · Carousel
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Curved Hero Container ── */
+.hero-cosmic {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-cosmic__backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: -2;
+}
+
+.hero-cosmic__backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,28,135,0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(6,182,212,0.06), transparent),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,92,246,0.05), transparent),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(236,72,153,0.04), transparent),
+    linear-gradient(180deg, rgba(5,5,8,0.6) 0%, rgba(10,10,24,0.8) 50%, rgba(5,5,8,0.4) 100%);
+  z-index: -1;
+}
+
+.hero-cosmic__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 40% 70%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1.5px 1.5px at 80% 50%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(2px 2px at 10% 80%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 90% 10%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.1), transparent);
+  z-index: -1;
+}
+
+/* ── Crystal Prism ── */
+.crystal-prism {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  min-width: 240px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(6,182,212,0.05));
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow:
+    0 0 40px rgba(139,92,246,0.06),
+    0 0 80px rgba(6,182,212,0.03),
+    inset 0 0 60px rgba(139,92,246,0.03);
+  overflow: hidden;
+  transition: border-radius 1s ease;
+}
+
+.crystal-prism::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    conic-gradient(from 0deg at 50% 50%, transparent, rgba(139,92,246,0.04), transparent, rgba(6,182,212,0.04), transparent, rgba(236,72,153,0.04), transparent);
+  animation: prismRotate 12s linear infinite;
+  z-index: 0;
+}
+
+.crystal-prism::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: rgba(5,5,8,0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.03);
+  z-index: 1;
+}
+
+.crystal-prism__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.crystal-prism__glow {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(139,92,246,0.08), transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(6,182,212,0.06), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(236,72,153,0.04), transparent 40%);
+  animation: prismGlow 8s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.crystal-prism__facets {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.crystal-prism__facets::before,
+.crystal-prism__facets::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.crystal-prism__facets::before {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 30px,
+    rgba(255,255,255,0.01) 30px,
+    rgba(255,255,255,0.01) 31px
+  );
+}
+
+.crystal-prism__facets::after {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(139,92,246,0.01) 40px,
+    rgba(139,92,246,0.01) 41px
+  );
+}
+
+/* ── Holographic Sneaker ── */
+.holographic-sneaker {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.holographic-sneaker__inner {
+  position: relative;
+  width: 85%;
+  max-width: 280px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, rgba(139,92,246,0.04), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.holographic-sneaker__ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(139,92,246,0.08);
+  animation: prismRotate 20s linear infinite reverse;
+}
+
+.holographic-sneaker__ring::before,
+.holographic-sneaker__ring::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(6,182,212,0.05);
+}
+
+.holographic-sneaker__ring::before {
+  inset: 16px;
+  animation: prismRotate 15s linear infinite;
+}
+
+.holographic-sneaker__ring::after {
+  inset: 32px;
+  border-color: rgba(236,72,153,0.04);
+  animation: prismRotate 25s linear infinite reverse;
+}
+
+.holographic-sneaker__image {
+  position: relative;
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 20px rgba(139,92,246,0.15))
+    drop-shadow(0 0 40px rgba(6,182,212,0.08))
+    brightness(1.1)
+    contrast(1.05);
+  animation: holographicFloat 4s ease-in-out infinite;
+  z-index: 2;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+
+.holographic-sneaker__shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(139,92,246,0.04) 35%,
+    rgba(6,182,212,0.06) 40%,
+    rgba(255,255,255,0.04) 45%,
+    rgba(236,72,153,0.06) 50%,
+    rgba(139,92,246,0.04) 55%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: holographicShimmer 4s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: overlay;
+}
+
+.holographic-sneaker__scanline {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(139,92,246,0.02) 3px,
+    rgba(139,92,246,0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 4;
+  mix-blend-mode: overlay;
+  animation: scanlineMove 3s linear infinite;
+}
+
+.holographic-sneaker__corner-label {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-geist-mono, "Geist Mono", "JetBrains Mono", ui-monospace, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(139,92,246,0.3);
+  white-space: nowrap;
+  z-index: 5;
+  padding: 0.25rem 0.75rem;
+  background: rgba(5,5,8,0.4);
+  border: 1px solid rgba(139,92,246,0.06);
+  border-radius: 9999px;
+}
+
+/* ── Field Note Sidebar ── */
+.field-note {
+  position: relative;
+  border-left: 1px solid rgba(255,255,255,0.06);
+  padding-left: 1.5rem;
+}
+
+.field-note::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(139,92,246,0.3), transparent 60%);
+}
+
+.field-note__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field-note__badge {
+  font-family: var(--font-geist-mono, "Geist Mono", "JetBrains Mono", ui-monospace, monospace);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(139,92,246,0.5);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(139,92,246,0.1);
+  border-radius: 4px;
+  background: rgba(139,92,246,0.04);
+}
+
+.field-note__title {
+  font-family: var(--font-geist-mono, "Geist Mono", "JetBrains Mono", ui-monospace, monospace);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.3);
+}
+
+.field-note__sep {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.06), transparent);
+  margin-bottom: 1.25rem;
+}
+
+.field-note__spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.field-note__spec:last-child {
+  border-bottom: none;
+}
+
+.field-note__spec-label {
+  font-family: var(--font-geist-mono, "Geist Mono", "JetBrains Mono", ui-monospace, monospace);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+.field-note__spec-value {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  text-align: right;
+}
+
+.field-note__spec-value--accent {
+  color: rgba(139,92,246,0.7);
+}
+
+.field-note__spec-value--cyan {
+  color: rgba(6,182,212,0.6);
+}
+
+/* ── Carousel Dots ── */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.carousel-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  padding: 0;
+}
+
+.carousel-dot:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.carousel-dot--active {
+  width: 32px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(139,92,246,0.6), rgba(6,182,212,0.4));
+  box-shadow: 0 0 12px rgba(139,92,246,0.15);
+}
+
+.carousel-dot--active:hover {
+  background: linear-gradient(90deg, rgba(139,92,246,0.8), rgba(6,182,212,0.6));
+}
+
+/* ── Hero Animations ── */
+@keyframes prismRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes prismGlow {
+  0% { opacity: 0.5; transform: scale(0.95) translate(0, 0); }
+  50% { opacity: 0.8; transform: scale(1.05) translate(-2%, 2%); }
+  100% { opacity: 0.6; transform: scale(1) translate(2%, -1%); }
+}
+
+@keyframes holographicShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes holographicFloat {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes scanlineMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 20px; }
+}
