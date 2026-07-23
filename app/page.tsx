@@ -5,12 +5,20 @@ import ProductCard from '@/app/components/ProductCard';
 import NewsletterForm from '@/app/components/NewsletterForm';
 import InteractivePrism from '@/app/components/InteractivePrism';
 import ParticleField from '@/app/components/ParticleField';
-import { products } from '@/app/data/products';
+import { products, categories } from '@/app/data/products';
 
 const PRODUCT_CATEGORIES = [
   { id: "origins", overline: "Chapter I", name: "Origins", accent: "rgba(139,92,246,1)", description: "Where it all began. Foundational designs rooted in celestial ambition — forged from the core of dying stars to carry you through the cosmos." },
   { id: "agility", overline: "Chapter II", name: "Agility", accent: "rgba(6,182,212,1)", description: "Engineered for speed. Quantum-woven uppers and zero-gravity soles that respond to your every move." },
   { id: "velocity", overline: "Chapter III", name: "Velocity", accent: "rgba(236,72,153,1)", description: "The apex of performance. Cutting-edge propulsion meets interstellar design — built for those who refuse to be bound by gravity." },
+];
+
+const CAROUSEL_SLIDES = [
+  { label: "Nebula Runner", color: "#8b5cf6" },
+  { label: "Void Walker", color: "#ec4899" },
+  { label: "Quantum Prime", color: "#22d3ee" },
+  { label: "Astro Drift", color: "#f59e0b" },
+  { label: "Cosmic Surge", color: "#10b981" },
 ];
 
 export default function Home() {
@@ -49,89 +57,125 @@ export default function Home() {
       {/* ═══════ MAIN CONTENT ═══════ */}
       <div className="relative z-10">
 
-        {/* ═══════════════════════════════════════════════════
-            HORIZON HERO — Full-Screen Centered Cinematic
-            Deep Space · Mountains · Red/Orange Glow
-            ═══════════════════════════════════════════════════ */}
-        <section className="horizon-hero">
-
-          {/* ── Starry backdrop (CSS specks) ── */}
-          <div className="horizon-hero__stars" />
-
-          {/* ── Ambient red/orange glow ── */}
-          <div className="horizon-hero__glow--secondary" />
-          <div className="horizon-hero__glow" />
-
-          {/* ── Centered content stack ── */}
-          <div className="horizon-hero__content">
-            {/* Collection badge */}
-            <div className="horizon-hero__badge">
-              <span className="horizon-hero__badge-dot" />
-              <span className="horizon-hero__badge-text">Summer Collection 2026</span>
+        {/* ════════════════════════════════════════════
+            SECTION 1: HERO — Full-Screen Immersive
+            ════════════════════════════════════════════ */}
+        <section className="hero-immersive">
+          <div className="hero-immersive__grid">
+            {/* Left: Brand Typography */}
+            <div className="hero-immersive__brand animate-fade-in" style={{ animationDelay: "0.3s", animationFillMode: "both" }}>
+              <div className="hero-immersive__badge">
+                <span className="hero-immersive__badge-dot" />
+                <span className="hero-immersive__badge-text">Summer Collection 2026</span>
+              </div>
+              <div className="hero-immersive__logo">
+                <span className="hero-immersive__logo-top">Cosmic Kicks</span>
+                <h1 className="hero-immersive__title">
+                  Step Beyond{' '}
+                  <span className="hero-immersive__title-accent">the Horizon</span>
+                </h1>
+              </div>
+              <p className="hero-immersive__subtitle">
+                Premium footwear forged for the cosmos. Each pair is engineered at the
+                intersection of earthly craftsmanship and celestial ambition.
+              </p>
+              <div className="hero-immersive__ctas">
+                <a href="#origins" className="hero-immersive__btn hero-immersive__btn--primary">
+                  Explore Collection
+                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                  </svg>
+                </a>
+                <a href="#velocity" className="hero-immersive__btn hero-immersive__btn--secondary">
+                  New Arrivals
+                </a>
+              </div>
             </div>
 
-            {/* Massive centered title */}
-            <h1 className="horizon-hero__title" data-text="COSMIC KICKS">
-              <span className="horizon-hero__title-glow">COSMIC KICKS</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="horizon-hero__subtitle">
-              Step beyond the horizon with advanced cosmic footwear — engineered at the
-              intersection of earthly craftsmanship and celestial ambition.
-            </p>
-
-            {/* CTAs */}
-            <div className="horizon-hero__ctas">
-              <a href="#origins" className="horizon-hero__btn horizon-hero__btn--primary">
-                Explore Collection
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                </svg>
-              </a>
-              <a href="#velocity" className="horizon-hero__btn horizon-hero__btn--secondary">
-                New Arrivals
-              </a>
-            </div>
-
-            {/* Crystal Prism (below content) */}
-            <div className="horizon-hero__prism">
+            {/* Center: 3D Interactive Crystal Prism */}
+            <div className="flex items-center justify-center" style={{ animation: "fade-in 0.6s ease-out 0.6s both" }}>
               <InteractivePrism />
             </div>
+
+            {/* Right: FIELD NOTE Specs Sidebar */}
+            <div className="hidden lg:flex flex-col justify-center" style={{ animation: "fade-in 0.6s ease-out 0.9s both" }}>
+              <div className="field-note">
+                <div className="field-note__header">
+                  <span className="field-note__badge">FIELD NOTE</span>
+                  <span className="field-note__title">// ID: NR-7X</span>
+                </div>
+                <div className="field-note__sep" />
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Project</span>
+                  <span className="field-note__spec-value field-note__spec-value--accent">COSMIC KICKS</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Model</span>
+                  <span className="field-note__spec-value">Nebula Runner NR-7</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Tier</span>
+                  <span className="field-note__spec-value field-note__spec-value--cyan">Supernova</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Material</span>
+                  <span className="field-note__spec-value">Carbon-Celestial</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Weight</span>
+                  <span className="field-note__spec-value">187 g</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Energy Return</span>
+                  <span className="field-note__spec-value field-note__spec-value--accent">94%</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Collection</span>
+                  <span className="field-note__spec-value">SS 2026</span>
+                </div>
+                <div className="field-note__spec">
+                  <span className="field-note__spec-label">Status</span>
+                  <span className="field-note__spec-value" style={{ color: "rgba(34,197,94,0.6)" }}>
+                    ● Ready
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* ── Mountain silhouette SVGs at the bottom ── */}
-          <div className="horizon-hero__mountains">
-            <svg viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Deep background mountains */}
-              <path
-                d="M0 400 L0 280 Q100 240 180 260 Q260 280 340 220 Q420 160 500 200 Q580 240 620 180 Q660 120 720 170 Q780 220 840 160 Q900 100 960 150 Q1020 200 1080 140 Q1140 80 1200 130 Q1260 180 1320 220 Q1380 260 1440 240 L1440 400 Z"
-                fill="rgba(10,10,24,0.5)"
+          {/* Carousel Pagination Dots */}
+          <div className="carousel-dots">
+            {CAROUSEL_SLIDES.map((slide, i) => (
+              <button
+                key={slide.label}
+                className={`carousel-dot ${i === activeSlide ? "carousel-dot--active" : ""}`}
+                aria-label={slide.label}
+                onClick={() => setActiveSlide(i)}
               />
-              {/* Mid mountains */}
-              <path
-                d="M0 400 L0 310 Q80 280 160 300 Q240 320 320 270 Q400 220 480 260 Q560 300 640 240 Q720 180 800 230 Q880 280 960 210 Q1040 140 1120 200 Q1200 260 1280 230 Q1360 200 1440 260 L1440 400 Z"
-                fill="rgba(8,8,20,0.6)"
-              />
-              {/* Foreground mountains (darkest) */}
-              <path
-                d="M0 400 L0 340 Q60 320 120 340 Q180 360 240 320 Q300 280 360 310 Q420 340 480 300 Q540 260 600 290 Q660 320 720 280 Q780 240 840 290 Q900 340 960 300 Q1020 260 1080 310 Q1140 360 1200 330 Q1260 300 1320 340 Q1380 380 1440 350 L1440 400 Z"
-                fill="rgba(5,5,8,0.8)"
-              />
-              {/* Horizon glow line */}
-              <path
-                d="M0 400 L0 345 Q360 330 720 340 Q1080 350 1440 340"
-                stroke="rgba(255,120,40,0.08)"
-                strokeWidth="0.5"
-                fill="none"
-              />
-            </svg>
+            ))}
           </div>
 
-          {/* ── Minimalist scroll indicator ── */}
-          <div className="horizon-hero__scroll">
-            <div className="horizon-hero__scroll-line" />
-            <span className="horizon-hero__scroll-text">Explore</span>
+          {/* Stats Row */}
+          <div className="stats-bar" style={{ maxWidth: "1280px", margin: "2rem auto 0", padding: "2rem 2rem 0" }}>
+            {[
+              { label: "Collections", value: "3" },
+              { label: "Styles", value: `${products.length}` },
+              { label: "Materials", value: "Carbon-Celestial" },
+              { label: "Delivery", value: "Free Orbit" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="stats-bar__label">{stat.label}</p>
+                <p className="stats-bar__value">{stat.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator">
+            <div className="scroll-indicator__mouse">
+              <div className="scroll-indicator__wheel" />
+            </div>
+            <span className="scroll-indicator__text">Scroll</span>
           </div>
         </section>
 
@@ -239,7 +283,7 @@ export default function Home() {
         </div>
 
         {/* ════════════════════════════════════════════
-            CTA BANNER
+            SECTION 5: CTA BANNER
             ════════════════════════════════════════════ */}
         <section
           className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent px-8 py-16 text-center"
