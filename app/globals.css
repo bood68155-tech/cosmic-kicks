@@ -36,13 +36,23 @@ body { background: #050508; color: #ededed; font-family: var(--font-body); overf
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes pulse-glow {
-  0%,100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
 
 .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s ease; }
 .glass-nav { background: rgba(5,5,8,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+/* ═══ ORBITING PLANET ANIMATIONS ═══ */
+@keyframes orbit-planet-1 {
+  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+@keyframes orbit-planet-2 {
+  0% { transform: rotate(0deg) translateX(170px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(170px) rotate(-360deg); }
+}
+@keyframes orbit-planet-3 {
+  0% { transform: rotate(0deg) translateX(70px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
+}
 
 /* ═══ HERO SECTION ═══ */
 .hero-immersive { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -78,30 +88,94 @@ body { background: #050508; color: #ededed; font-family: var(--font-body); overf
 @media (min-width: 768px) { .crystal-prism-3d { width: 380px; height: 460px; } }
 @media (min-width: 1024px) { .crystal-prism-3d { width: 420px; height: 500px; } }
 
-.crystal-prism-3d__glow { position: absolute; inset: -30px; border-radius: 50%; background: conic-gradient(from 0deg at 50% 50%,rgba(139,92,246,0.15),rgba(6,182,212,0.1),rgba(236,72,153,0.12),rgba(139,92,246,0.15)); filter: blur(40px); animation: prism-aura 6s ease-in-out infinite; transform-style: preserve-3d; }
-@keyframes prism-aura { 0%,100% { transform: scale(1) rotate(0deg); opacity: 0.6; } 33% { transform: scale(1.1) rotate(120deg); opacity: 0.8; } 66% { transform: scale(0.95) rotate(240deg); opacity: 0.5; } }
-.crystal-prism-3d::before { content: ''; position: absolute; inset: 0; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; background: linear-gradient(135deg,rgba(15,15,40,0.9),rgba(20,20,50,0.7)); border: 1px solid rgba(255,255,255,0.08); box-shadow: inset 0 0 60px rgba(139,92,246,0.08), 0 0 80px rgba(139,92,246,0.05); transform-style: preserve-3d; }
-.crystal-prism-3d::after { content: ''; position: absolute; inset: -2px; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; background: conic-gradient(from 0deg at 50% 50%,rgba(139,92,246,0.3),rgba(6,182,212,0.2),rgba(236,72,153,0.25),rgba(139,92,246,0.3)); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; -webkit-mask-composite: xor; padding: 1.5px; animation: prism-border 8s linear infinite; transform-style: preserve-3d; }
+.crystal-prism-3d__glow {
+  position: absolute; inset: -30px; border-radius: 50%;
+  background: conic-gradient(from 0deg at 50% 50%,rgba(139,92,246,0.2),rgba(6,182,212,0.15),rgba(236,72,153,0.18),rgba(139,92,246,0.2));
+  filter: blur(50px);
+  animation: prism-aura 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+@keyframes prism-aura {
+  0%,100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+  33% { transform: scale(1.15) rotate(120deg); opacity: 1; }
+  66% { transform: scale(0.9) rotate(240deg); opacity: 0.5; }
+}
+
+.crystal-prism-3d::before {
+  content: ''; position: absolute; inset: 0;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: linear-gradient(135deg,rgba(15,15,40,0.85),rgba(30,20,60,0.7));
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: inset 0 0 80px rgba(139,92,246,0.12), 0 0 100px rgba(139,92,246,0.08);
+  transform-style: preserve-3d;
+}
+
+.crystal-prism-3d::after {
+  content: ''; position: absolute; inset: -2px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: conic-gradient(from 0deg at 50% 50%,rgba(139,92,246,0.4),rgba(6,182,212,0.3),rgba(236,72,153,0.35),rgba(139,92,246,0.4));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 2px;
+  animation: prism-border 6s linear infinite;
+  transform-style: preserve-3d;
+}
 @keyframes prism-border { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.crystal-prism-3d__facets { position: absolute; inset: 0; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; overflow: hidden; z-index: 1; transform-style: preserve-3d; }
-.crystal-prism-3d__facets::before { content: ''; position: absolute; top: 20%; left: 10%; width: 35%; height: 30%; background: linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%); border-radius: 50%; transform: skewX(-10deg); }
-.crystal-prism-3d__facets::after { content: ''; position: absolute; bottom: 15%; right: 15%; width: 25%; height: 20%; background: linear-gradient(-45deg,rgba(255,255,255,0.04) 0%,transparent 50%); border-radius: 50%; transform: skewY(10deg); }
+
+.crystal-prism-3d__facets {
+  position: absolute; inset: 0;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  overflow: hidden; z-index: 1;
+  transform-style: preserve-3d;
+}
+.crystal-prism-3d__facets::before {
+  content: ''; position: absolute; top: 20%; left: 10%; width: 35%; height: 30%;
+  background: linear-gradient(135deg,rgba(255,255,255,0.08) 0%,transparent 60%);
+  border-radius: 50%; transform: skewX(-10deg);
+}
+.crystal-prism-3d__facets::after {
+  content: ''; position: absolute; bottom: 15%; right: 15%; width: 25%; height: 20%;
+  background: linear-gradient(-45deg,rgba(255,255,255,0.06) 0%,transparent 50%);
+  border-radius: 50%; transform: skewY(10deg);
+}
+
 .crystal-prism-3d__content { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; transform-style: preserve-3d; }
-.crystal-prism-3d__rings { position: absolute; inset: -30px; width: calc(100% + 60px); height: calc(100% + 60px); opacity: 0.5; transform-style: preserve-3d; }
+.crystal-prism-3d__rings { position: absolute; inset: -30px; width: calc(100% + 60px); height: calc(100% + 60px); opacity: 0.6; transform-style: preserve-3d; }
 .crystal-prism-3d__corner-label { position: absolute; font-size: 9px; font-weight: 600; letter-spacing: 0.2em; white-space: nowrap; z-index: 5; }
 .crystal-prism-3d__corner-label--tl { top: -18px; left: 10px; }
+.crystal-prism-3d__corner-label--tr { top: -18px; right: 10px; }
 .crystal-prism-3d__corner-label--br { bottom: -18px; right: 10px; color: rgba(255,255,255,0.2); }
 
 /* ═══ HOLOGRAPHIC SNEAKER ═══ */
 .holographic-sneaker-3d { position: relative; width: 240px; height: 160px; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; transform: translateZ(20px); }
 @media (min-width: 768px) { .holographic-sneaker-3d { width: 280px; height: 186px; } }
-.holographic-sneaker-3d svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(139,92,246,0.2)); transform-style: preserve-3d; }
-.holographic-sneaker-3d__shimmer { position: absolute; inset: 0; background: linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.06) 45%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.06) 55%,transparent 70%); background-size: 300% 100%; animation: holographic-shimmer 4s ease-in-out infinite; pointer-events: none; z-index: 3; mix-blend-mode: screen; }
+.holographic-sneaker-3d svg { width: 100%; height: 100%; filter: drop-shadow(0 0 30px rgba(139,92,246,0.3)); transform-style: preserve-3d; }
+
+.holographic-sneaker-3d__shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg,transparent 25%,rgba(255,255,255,0.08) 40%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.08) 60%,transparent 75%);
+  background-size: 300% 100%;
+  animation: holographic-shimmer 3s ease-in-out infinite;
+  pointer-events: none; z-index: 3; mix-blend-mode: screen;
+}
 @keyframes holographic-shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-.holographic-sneaker-3d__scanline { position: absolute; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(139,92,246,0.03) 2px,rgba(139,92,246,0.03) 4px); pointer-events: none; z-index: 4; animation: scanline-move 3s linear infinite; opacity: 0.3; }
+
+.holographic-sneaker-3d__scanline {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(139,92,246,0.04) 2px,rgba(139,92,246,0.04) 4px);
+  pointer-events: none; z-index: 4;
+  animation: scanline-move 2s linear infinite;
+  opacity: 0.4;
+}
 @keyframes scanline-move { 0% { transform: translateY(0); } 100% { transform: translateY(4px); } }
-.holographic-sneaker-3d__orbital-dot { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(139,92,246,0.6); box-shadow: 0 0 8px rgba(139,92,246,0.4); animation: orbital-dot 3s ease-in-out infinite; z-index: 5; }
-@keyframes orbital-dot { 0%,100% { opacity: 0.2; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
+
+.holographic-sneaker-3d__orbital-dot {
+  position: absolute; width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(139,92,246,0.7); box-shadow: 0 0 10px rgba(139,92,246,0.5), 0 0 20px rgba(139,92,246,0.2);
+  animation: orbital-dot 3s ease-in-out infinite; z-index: 5;
+}
+@keyframes orbital-dot { 0%,100% { opacity: 0.2; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.3); } }
 
 /* ═══ FIELD NOTE SIDEBAR ═══ */
 .field-note { border-left: 1px solid rgba(255,255,255,0.06); padding-left: 1.5rem; }
