@@ -180,8 +180,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       received: true,
       journal_entry_id: result.journal_entry_id,
-      debits_total: result.debits_total,
-      credits_total: result.credits_total,
+      debits_total: (result as any).debits_total,
+      credits_total: (result as any).credits_total,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Webhook processing failed';
