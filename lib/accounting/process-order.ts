@@ -299,7 +299,7 @@ export async function processOrderAccounting(options) {
     return { success: true, journal_entry_id: journalEntryId, message: 'Entry created' };
   } catch (error) {
     const message = error.message || 'Unknown error';
-    return { success: false, message: 'Accounting failed', error: message };
+    return { success: false, message: 'Accounting failed', error: message, debits_total: 0, credits_total: 0 };
   }
 }
 
