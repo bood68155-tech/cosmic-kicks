@@ -127,7 +127,7 @@ export default function CartDrawer() {
   const handleStripeCheckout = async () => {
     setStripeLoading(true);
     try {
-      const items = cartItems.map((item) => ({
+      const items = items.map((item) => ({
         id: item.product.id,
         name: item.product.name,
         price: item.product.price,

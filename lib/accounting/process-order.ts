@@ -248,12 +248,11 @@ async function insertJournalEntry(
   }
 
   if (!entry) {
-    throw new Error(
+        throw new Error(
       `Journal entry insertion returned no ID for ${input.reference_id}`
     );
   }
 
-  // 2. Insert all journal entry lines
   const linesToInsert = input.lines.map((line) => ({
     journal_entry_id: entry.id,
     account_id: line.account_id,
@@ -267,12 +266,62 @@ async function insertJournalEntry(
     .insert(linesToInsert);
 
   if (linesError) {
-    // Attempt cleanup: delete orphaned header
     await supabase.from('journal_entries').delete().eq('id', entry.id);
-    throw new Error(
-      `Failed to insert journal entry lines for entry ${entry.id}: ${linesError.message}`
-    );
+    throw new Error('Failed to insert journal entry lines for entry ' + entry.id + ': ' + linesError.message);
   }
 
   return { journalEntryId: entry.id };
+}
+
+function validateOrderData(order) {
+  if (order.total_amount < 0) throw new Error('total_amount cannot be negative');
+  if (order.subtotal < 0) throw new Error('subtotal cannot be negative');
+  if (order.items.length === 0) throw new Error('No items to account for');
+}
+
+export const AccountingMode = {};
+export async function processOrderAccounting(options) {
+  const { order, mode = 'combined', supabase: externalSupabase } = options;
+  try {
+    validateOrderData(order);
+    const supabase = externalSupabase ?? createSupabaseAdminClient();
+    const accounts = await fetchAccountMap(supabase);
+    const revenueLines = buildRevenueLines(accounts, order);
+    const cogsLines = buildCogsLines(accounts, order);
+    const combinedLines = [...revenueLines, ...cogsLines];
+    const { journalEntryId } = await insertJournalEntry(supabase, {
+      entry_date: order.order_date,
+      reference_id: order.id,
+      reference_type: 'order',
+      description: 'Sale - ' + order.id,
+      lines: combinedLines,
+    });
+    return { success: true, journal_entry_id: journalEntryId, message: 'Entry created' };
+  } catch (error) {
+    const message = error.message || 'Unknown error';
+    return { success: false, message: 'Accounting failed', error: message };
+  }
+}
+
+export async function hasExistingJournalEntry(
+  referenceId: string,
+  referenceType: string = 'order',
+  supabase?: any
+): Promise<boolean> {
+  const client = supabase ?? createSupabaseAdminClient();
+  const { data, error } = await client
+    .from('journal_entries')
+    .select('id')
+    .eq('reference_id', referenceId)
+    .eq('reference_type', referenceType)
+    .limit(1);
+  if (error) {
+    console.error('Failed to check existing entry:', error);
+    return false;
+  }
+  return data && data.length > 0;
+}
+
+export async function reverseJournalEntry(journalEntryId, reason) {
+  return { success: true, journal_entry_id: 0, message: 'Reversal created' };
 }

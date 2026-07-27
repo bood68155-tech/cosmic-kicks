@@ -18,7 +18,6 @@ import { processOrderAccounting } from '@/lib/accounting/process-order';
 import type { OrderAccountingData, OrderLineItem } from '@/types/accounting';
 
 // Stripe requires raw body for signature verification
-};
 
 async function bufferRequestBody(request: NextRequest): Promise<Buffer> {
   const arrayBuffer = await request.arrayBuffer();
