@@ -249,4 +249,30 @@ async function insertJournalEntry(
 
   if (!entry) {
     throw new Error(
-      `Journal entry insertion returned
+      `Journal entry insertion returned no ID for ${input.reference_id}`
+    );
+  }
+
+  // 2. Insert all journal entry lines
+  const linesToInsert = input.lines.map((line) => ({
+    journal_entry_id: entry.id,
+    account_id: line.account_id,
+    entry_type: line.entry_type,
+    amount: line.amount,
+    description: line.description ?? null,
+  }));
+
+  const { error: linesError } = await supabase
+    .from('journal_entry_lines')
+    .insert(linesToInsert);
+
+  if (linesError) {
+    // Attempt cleanup: delete orphaned header
+    await supabase.from('journal_entries').delete().eq('id', entry.id);
+    throw new Error(
+      `Failed to insert journal entry lines for entry ${entry.id}: ${linesError.message}`
+    );
+  }
+
+  return { journalEntryId: entry.id };
+}

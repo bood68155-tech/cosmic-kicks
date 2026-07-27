@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
-import { ShoppingBag, X, Minus, Plus, Trash2 } from 'lucide-react';
+import { ShoppingBag, X, Minus, Plus, Trash2, CreditCard, Loader2 } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 function QtyStepper({
@@ -120,6 +121,40 @@ export default function CartDrawer() {
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const prevFocusRef = useRef<HTMLElement | null>(null);
+
+  const [stripeLoading, setStripeLoading] = useState(false);
+
+  const handleStripeCheckout = async () => {
+    setStripeLoading(true);
+    try {
+      const items = cartItems.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        image: item.product.image,
+      }));
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Checkout failed');
+      }
+
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Checkout failed');
+    } finally {
+      setStripeLoading(false);
+    }
+  };
+
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
