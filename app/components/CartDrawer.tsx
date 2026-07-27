@@ -127,7 +127,7 @@ export default function CartDrawer() {
   const handleStripeCheckout = async () => {
     setStripeLoading(true);
     try {
-      const items = (items as any[]).map((item) => ({
+      const checkoutItems = items.map((item) => ({
         id: item.product.id,
         name: item.product.name,
         price: item.product.price,
@@ -138,7 +138,7 @@ export default function CartDrawer() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items: checkoutItems }),
       });
 
       if (!res.ok) {
