@@ -273,7 +273,7 @@ async function insertJournalEntry(
   return { journalEntryId: entry.id };
 }
 
-function validateOrderData(order) {
+function validateOrderData(order: any) {
   if (order.total_amount < 0) throw new Error('total_amount cannot be negative');
   if (order.subtotal < 0) throw new Error('subtotal cannot be negative');
   if (order.items.length === 0) throw new Error('No items to account for');
