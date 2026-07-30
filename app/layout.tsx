@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import StarField from './components/StarField';
+import CosmicScene from './components/CosmicScene';
 import { CartProvider } from '@/app/context/CartContext';
 import CartDrawer from '@/app/components/CartDrawer';
 import CartIcon from '@/app/components/CartIcon';
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="relative flex min-h-full flex-col font-sans bg-[#050508] text-[#ededed]">
-        <StarField />
+        <CosmicScene />
         <CartProvider>
           <header className="glass-nav sticky top-0 z-50">
             <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
