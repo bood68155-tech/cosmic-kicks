@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import ProductCard from '@/app/components/ProductCard';
 import NewsletterForm from '@/app/components/NewsletterForm';
-import InteractivePrism from '@/app/components/InteractivePrism';
-import ParticleField from '@/app/components/ParticleField';
+
+
 import { products, categories } from '@/app/data/products';
 
 const PRODUCT_CATEGORIES = [
@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <>
       {/* ═══════ DYNAMIC NEBULA PARTICLE FIELD ═══════ */}
-      <ParticleField />
+      
 
       {/* ═══════ MAIN CONTENT ═══════ */}
       <div className="relative z-10">
@@ -94,7 +94,7 @@ export default function Home() {
 
             {/* Center: 3D Interactive Crystal Prism */}
             <div className="flex items-center justify-center" style={{ animation: "fade-in 0.6s ease-out 0.6s both" }}>
-              <InteractivePrism />
+              <div className="flex items-center justify-center w-full h-full"><span className="text-6xl">🚀</span></div>
             </div>
 
             {/* Right: FIELD NOTE Specs Sidebar */}
