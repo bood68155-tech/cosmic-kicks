@@ -116,10 +116,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
-            className={`aspect-square w-full max-w-[260px] rounded-xl object-cover transition-all duration-700 ${
+            className={`absolute inset-0 mx-auto aspect-square w-full max-w-[260px] rounded-xl object-cover transition-all duration-700 ${
               isHovered ? 'scale-105' : 'scale-100'
-            } ${imageLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+            } ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             loading="lazy"
+            fetchPriority="high"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            fetchPriority="high"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         )}
 

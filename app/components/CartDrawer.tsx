@@ -66,12 +66,21 @@ function CartItemRow({
       }}
     >
       {/* Product image */}
-      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white/[0.03]">
+      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white/[0.03] relative">
+        <div className="cart-img-fb hidden absolute inset-0 flex items-center justify-center text-lg opacity-40">
+          {product.category === "sneakers" ? "👟" : product.category === "boots" ? "👢" : "👞"}
+        </div>
         <img
           src={product.image}
           alt={product.name}
           className="h-full w-full object-cover"
           loading="lazy"
+          onError={(e) => {
+            const el = e.currentTarget;
+            el.style.display = "none";
+            const fb = el.parentElement?.querySelector(".cart-img-fb");
+            if (fb) fb.classList.remove("hidden");
+          }}
         />
       </div>
 
