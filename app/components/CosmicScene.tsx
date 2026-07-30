@@ -534,13 +534,30 @@ function Scene() {
 
 export default function CosmicScene() {
   return (
-    <div className="fixed inset-0 z-[-1]" aria-hidden="true" style={{ pointerEvents: 'none', background: 'transparent' }}>
+    <div
+      className="fixed inset-0"
+      aria-hidden="true"
+      style={{
+        zIndex: -1,
+        pointerEvents: 'none',
+        background: 'transparent',
+        isolation: 'isolate',
+        contain: 'strict',
+      }}
+    >
       <Suspense fallback={null}>
         <Canvas
           camera={{ position: [0, 0, 30], fov: 60, near: 0.1, far: 500 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
           dpr={[1, 1.5]}
-          style={{ background: 'transparent', width: '100%', height: '100%' }}
+          style={{
+            background: 'transparent',
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            touchAction: 'none',
+            userSelect: 'none',
+          }}
         >
           <Scene />
         </Canvas>

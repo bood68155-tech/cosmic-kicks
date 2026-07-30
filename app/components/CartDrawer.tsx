@@ -281,7 +281,34 @@ export default function CartDrawer() {
                 ? 'Free shipping on this order!'
                 : `Add ${((300 - subtotal).toLocaleString())} more for free shipping`}
             </p>
-            <div className="mt-2">
+            {/* Stripe Checkout Button */}
+            <button
+              type="button"
+              onClick={handleStripeCheckout}
+              disabled={stripeLoading}
+              className="relative w-full overflow-hidden rounded-xl border border-white/[0.1] bg-gradient-to-r from-purple-600/20 to-cyan-600/20 px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white/90 transition-all duration-300 hover:from-purple-600/30 hover:to-cyan-600/30 hover:border-white/[0.2] hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+            >
+              {stripeLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 size={14} className="animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  <CreditCard size={14} />
+                  Pay with Card (Stripe)
+                </span>
+              )}
+            </button>
+            <div className="relative mb-3">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/[0.06]" />
+              </div>
+              <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
+                <span className="bg-[#050508] px-2 text-white/30">or pay with</span>
+              </div>
+            </div>
+            <div className="mt-0">
               <PayPalScriptProvider options={{ clientId: 'sb', components: 'buttons', currency: 'USD' }}>
                 <PayPalButtons
                   style={{ layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal' }}

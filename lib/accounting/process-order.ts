@@ -279,8 +279,13 @@ function validateOrderData(order: any) {
   if (order.items.length === 0) throw new Error('No items to account for');
 }
 
-export const AccountingMode = {};
-export async function processOrderAccounting(options) {
+export interface ProcessOrderOptions {
+  order: OrderAccountingData;
+  mode?: 'combined' | 'separate';
+  supabase?: any;
+}
+
+export async function processOrderAccounting(options: ProcessOrderOptions) {
   const { order, mode = 'combined', supabase: externalSupabase } = options;
   try {
     validateOrderData(order);
@@ -298,7 +303,7 @@ export async function processOrderAccounting(options) {
     });
     return { success: true, journal_entry_id: journalEntryId, message: 'Entry created' };
   } catch (error) {
-    const message = error.message || 'Unknown error';
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return { success: false, message: 'Accounting failed', error: message, debits_total: 0, credits_total: 0 };
   }
 }
@@ -322,6 +327,6 @@ export async function hasExistingJournalEntry(
   return data && data.length > 0;
 }
 
-export async function reverseJournalEntry(journalEntryId, reason) {
+export async function reverseJournalEntry(journalEntryId: number, reason: string) {
   return { success: true, journal_entry_id: 0, message: 'Reversal created' };
 }
