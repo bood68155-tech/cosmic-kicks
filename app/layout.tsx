@@ -7,6 +7,7 @@ import { AdminAuthProvider } from '@/app/context/AdminAuthContext';
 import CartDrawer from '@/app/components/CartDrawer';
 import CartIcon from '@/app/components/CartIcon';
 import AdminNavLink from '@/app/components/AdminNavLink';
+import AdminLoginTrigger from '@/app/components/AdminLoginTrigger';
 import Link from 'next/link';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </nav>
                 <div className="flex items-center gap-3">
                   <AdminNavLink className="hidden rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/40 transition-all hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-white/60 sm:inline-flex">Admin</AdminNavLink>
+                  <AdminLoginTrigger />
                   <CartIcon />
                 </div>
               </div>
