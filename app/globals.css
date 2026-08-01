@@ -3,9 +3,8 @@
    Dark-Space · Glassmorphism · 3D Prism · Parallax
    ══════════════════════════════════════════════════════════════ */
 
-@import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
 @theme inline {
   --color-space-black: #050508;

@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/app/context/AdminAuthContext';
-import { Shield, LogIn, Mail } from 'lucide-react';
+import { Lock, LogIn, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const { isLoggedIn, login } = useAdminAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,11 +23,11 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    const success = login(email);
+    await new Promise((r) => setTimeout(r, 400));
+    const success = await login(email, password);
     setLoading(false);
     if (!success) {
-      setError('This email is not authorized to access the admin panel.');
+      setError('Invalid email or password');
     }
   };
 
@@ -35,44 +36,48 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
           <div className="mx-auto mb-6 h-16 w-16 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400">
-            <Shield size={32} />
+            <Lock size={32} />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Admin Login</h1>
-          <p className="mt-2 text-sm text-white/40">Enter your authorized admin email to continue.</p>
+          <p className="mt-2 text-sm text-white/40">Sign in to manage your Cosmic Kicks store.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="mb-2 block text-xs font-medium text-white/50 uppercase tracking-wider">
-              Admin Email
-            </label>
+            <label className="mb-2 block text-xs font-medium text-white/50 uppercase tracking-wider">Email</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Mail size={14} className="text-white/30" />
-              </div>
+              <Mail
+                size={16}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30"
+              />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] pl-9 pr-4 py-3 text-sm text-white/80 outline-none transition-all focus:border-purple-500/40 focus:bg-white/[0.05] placeholder:text-white/20"
-                placeholder="bood68155@gmail.com"
+                className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 pl-10 text-sm text-white/80 outline-none transition-all focus:border-purple-500/40 focus:bg-white/[0.05]"
+                placeholder="admin@cosmic-kicks.com"
               />
             </div>
-            <p className="mt-1.5 text-[11px] text-white/30">
-              Only authorized admin emails can access this panel.
-            </p>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-xs font-medium text-white/50 uppercase tracking-wider">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-white/80 outline-none transition-all focus:border-purple-500/40 focus:bg-white/[0.05]"
+              placeholder="Enter password"
+            />
           </div>
 
           {error && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400">
-              {error}
-            </div>
+            <p className="text-sm text-red-400">{error}</p>
           )}
 
           <button
             type="submit"
-            disabled={loading || !email}
+            disabled={loading}
             className="w-full rounded-xl bg-purple-600 py-3 text-sm font-semibold text-white transition-all hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
@@ -80,8 +85,12 @@ export default function AdminLoginPage() {
             ) : (
               <LogIn size={18} />
             )}
-            {loading ? 'Verifying...' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
+
+          <p className="mt-4 text-center text-[11px] text-white/40">
+            Demo credentials: bood68155@gmail.com / 12341234
+          </p>
         </form>
       </div>
     </div>
