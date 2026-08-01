@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { AdminAuthProvider, useAdminAuth } from '@/app/context/AdminAuthContext';
+import { useAdminAuth } from '@/app/context/AdminAuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -70,11 +70,9 @@ function AdminNav() {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <AdminAuthProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
         <AdminNav />
         {children}
       </div>
-    </AdminAuthProvider>
   );
 }

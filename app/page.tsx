@@ -242,22 +242,9 @@ export default function Home() {
                               background: `radial-gradient(circle, ${section.accent}15, transparent 60%)`,
                             }}
                           />
-                          {/* Sneaker SVG */}
+                          {/* Product Image */}
                           <div className="showcase-card__image">
-                            <svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <defs>
-                                <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-                                  <stop offset="0%" stopColor={product.accent[0]} stopOpacity="0.6" />
-                                  <stop offset="50%" stopColor={product.accent[1]} stopOpacity="0.4" />
-                                  <stop offset="100%" stopColor={product.accent[0]} stopOpacity="0.3" />
-                                </linearGradient>
-                              </defs>
-                              <path d="M30 130 L38 124 L202 124 L210 130 L205 138 L34 138 Z" fill={`url(#${gradId})`} opacity="0.8" />
-                              <path d="M34 124 L42 82 L82 76 L72 92 L204 92 L208 124 Z" fill={`url(#${gradId})`} opacity="0.7" />
-                              <path d="M174 70 L208 70 L212 92 L72 92 L82 82 L164 82 Z" fill={`url(#${gradId})`} opacity="0.55" />
-                              <path d="M42 82 L56 42 L94 18 L174 42 L184 70 L164 82 L82 82 Z" fill={`url(#${gradId})`} opacity="0.75" />
-                              <path d="M54 72 Q110 62 168 68 Q194 70 208 64" stroke={`${product.accent[0]}50`} strokeWidth="2" fill="none" strokeLinecap="round" />
-                            </svg>
+                            <img src={product.image} alt={product.name} loading="lazy" />
                           </div>
                           {/* Product Info */}
                           <div className="showcase-card__info">
@@ -266,7 +253,7 @@ export default function Home() {
                               <span className="showcase-card__price">${product.price}</span>
                               <span
                                 className="showcase-card__tier"
-                                style={{ borderColor: `${product.accent[0]}30`, color: product.accent[0] }}
+                                style={{ borderColor: `${product.accent}30`, color: product.accent }}
                               >
                                 {product.cosmicTier}
                               </span>

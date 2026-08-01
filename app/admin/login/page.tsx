@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/app/context/AdminAuthContext';
-import { Shield, Lock, LogIn } from 'lucide-react';
+import { Shield, Lock, LogIn, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
@@ -10,6 +10,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +25,7 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
-    const success = login(username, password);
+    const success = login(username, password, email || undefined);
     setLoading(false);
     if (!success) {
       setError('Invalid username or password');
@@ -63,6 +64,23 @@ export default function AdminLoginPage() {
               className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-white/80 outline-none transition-all focus:border-purple-500/40 focus:bg-white/[0.05]"
               placeholder="Enter password"
             />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-xs font-medium text-white/50 uppercase tracking-wider">Admin Email</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Mail size={14} className="text-white/30" />
+              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] pl-9 pr-4 py-3 text-sm text-white/80 outline-none transition-all focus:border-purple-500/40 focus:bg-white/[0.05]"
+                placeholder="e.g. bood68155@gmail.com"
+              />
+            </div>
+            <p className="mt-1.5 text-[11px] text-white/30">Enter the authorized admin email to enable the Admin link in navigation.</p>
           </div>
 
           {error && (
