@@ -9,46 +9,30 @@ import {
   type ReactNode,
 } from 'react';
 
-const AUTH_STORAGE_KEY = 'cosmic-kicks-auth';
 const EMAIL_STORAGE_KEY = 'cosmic-kicks-admin-email';
-
-const ADMIN_USER = 'admin';
-const ADMIN_PASSWORD = 'admin123';
 const AUTHORIZED_ADMIN_EMAILS = ['bood68155@gmail.com'];
 
 interface AdminAuthContextValue {
   isLoggedIn: boolean;
   adminEmail: string | null;
   isAdmin: boolean;
-  login: (username: string, password: string, email?: string) => boolean;
+  login: (email: string) => boolean;
   logout: () => void;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextValue | null>(null);
 
-function loadFromStorage(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
-  } catch {
-    return false;
-  }
-}
-
 function loadEmailFromStorage(): string | null {
   if (typeof window === 'undefined') return null;
   try {
-    return localStorage.getItem(EMAIL_STORAGE_KEY);
+    const email = localStorage.getItem(EMAIL_STORAGE_KEY);
+    if (email && AUTHORIZED_ADMIN_EMAILS.includes(email)) {
+      return email;
+    }
+    return null;
   } catch {
     return null;
   }
-}
-
-function saveToStorage(value: boolean): void {
-  if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(AUTH_STORAGE_KEY, String(value));
-  } catch {}
 }
 
 function saveEmailToStorage(email: string | null): void {
@@ -63,23 +47,21 @@ function saveEmailToStorage(email: string | null): void {
 }
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(loadFromStorage());
   const [adminEmail, setAdminEmail] = useState<string | null>(loadEmailFromStorage);
 
+  const isLoggedIn = adminEmail !== null;
+
   const isAdmin = useMemo(
-    () => isLoggedIn && adminEmail !== null && AUTHORIZED_ADMIN_EMAILS.includes(adminEmail),
-    [isLoggedIn, adminEmail]
+    () => adminEmail !== null && AUTHORIZED_ADMIN_EMAILS.includes(adminEmail),
+    [adminEmail]
   );
 
   const login = useCallback(
-    (username: string, password: string, email?: string): boolean => {
-      if (username === ADMIN_USER && password === ADMIN_PASSWORD) {
-        setIsLoggedIn(true);
-        saveToStorage(true);
-        if (email) {
-          setAdminEmail(email);
-          saveEmailToStorage(email);
-        }
+    (email: string): boolean => {
+      const trimmed = email.trim().toLowerCase();
+      if (AUTHORIZED_ADMIN_EMAILS.includes(trimmed)) {
+        setAdminEmail(trimmed);
+        saveEmailToStorage(trimmed);
         return true;
       }
       return false;
@@ -88,9 +70,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
     setAdminEmail(null);
-    saveToStorage(false);
     saveEmailToStorage(null);
   }, []);
 
