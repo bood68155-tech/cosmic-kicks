@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import { useState } from 'react';
+import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
-import { ShoppingBag, X, Minus, Plus, Trash2, CreditCard, Loader2 } from 'lucide-react';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { ShoppingBag, X, Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
 
 function QtyStepper({
   value,
@@ -68,7 +67,7 @@ function CartItemRow({
       {/* Product image */}
       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white/[0.03] relative">
         <div className="cart-img-fb hidden absolute inset-0 flex items-center justify-center text-lg opacity-40">
-          {product.category === "sneakers" ? "👟" : product.category === "boots" ? "👢" : "👞"}
+          {product.category === "sneakers" ? "👟" : product.category === "boots" ? "👢" : product.category === "accessories" ? "🎒" : "👞"}
         </div>
         <img
           src={product.image}
@@ -130,40 +129,6 @@ export default function CartDrawer() {
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const prevFocusRef = useRef<HTMLElement | null>(null);
-
-  const [stripeLoading, setStripeLoading] = useState(false);
-
-  const handleStripeCheckout = async () => {
-    setStripeLoading(true);
-    try {
-      const checkoutItems = (items as any[]).map((item: any) => ({
-        id: item.product.id,
-        name: item.product.name,
-        price: item.product.price,
-        quantity: item.quantity,
-        image: item.product.image,
-      }));
-
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: checkoutItems }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Checkout failed');
-      }
-
-      const { url } = await res.json();
-      window.location.href = url;
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Checkout failed');
-    } finally {
-      setStripeLoading(false);
-    }
-  };
-
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -290,57 +255,15 @@ export default function CartDrawer() {
                 ? 'Free shipping on this order!'
                 : `Add ${((300 - subtotal).toLocaleString())} more for free shipping`}
             </p>
-            {/* Stripe Checkout Button */}
-            <button
-              type="button"
-              onClick={handleStripeCheckout}
-              disabled={stripeLoading}
-              className="relative w-full overflow-hidden rounded-xl border border-white/[0.1] bg-gradient-to-r from-purple-600/20 to-cyan-600/20 px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white/90 transition-all duration-300 hover:from-purple-600/30 hover:to-cyan-600/30 hover:border-white/[0.2] hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+            <Link
+              href="/checkout"
+              onClick={closeCart}
+              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-white/[0.1] bg-gradient-to-r from-purple-600/20 to-cyan-600/20 px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white/90 transition-all duration-300 hover:from-purple-600/30 hover:to-cyan-600/30 hover:border-white/[0.2] hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]"
             >
-              {stripeLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <Loader2 size={14} className="animate-spin" />
-                  Processing...
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  <CreditCard size={14} />
-                  Pay with Card (Stripe)
-                </span>
-              )}
-            </button>
-            <div className="relative mb-3">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/[0.06]" />
-              </div>
-              <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
-                <span className="bg-[#050508] px-2 text-white/30">or pay with</span>
-              </div>
-            </div>
-            <div className="mt-0">
-              <PayPalScriptProvider options={{ clientId: 'sb', components: 'buttons', currency: 'USD' }}>
-                <PayPalButtons
-                  style={{ layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal' }}
-                  createOrder={(_data: any, actions: any) => {
-                    return actions.order.create({
-                      purchase_units: [{
-                        amount: { value: subtotal.toFixed(2) },
-                        description: 'Cosmic Kicks Order',
-                      }],
-                    });
-                  }}
-                  onApprove={(_data: any, actions: any) => {
-                    return actions.order.capture().then(() => {
-                      alert('Payment successful! Thank you for your order.');
-                      clearCart();
-                    });
-                  }}
-                  onError={() => {
-                    alert('An error occurred during payment. Please try again.');
-                  }}
-                />
-              </PayPalScriptProvider>
-            </div>
+              <ShoppingBag size={14} />
+              Proceed to Checkout
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
             <button
               type="button"
               onClick={clearCart}

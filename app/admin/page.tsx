@@ -18,7 +18,7 @@ const emptyProduct = {
 };
 
 const TIERS = ['stellar', 'nebula', 'supernova'] as const;
-const CATS: Record<string, string> = { sneakers: 'Sneakers', classic: 'Classics', boots: 'Boots' };
+const CATS: Record<string, string> = { sneakers: 'Sneakers', classic: 'Classics', boots: 'Boots', accessories: 'Accessories' };
 
 function AdminContent() {
   const { isLoggedIn } = useAdminAuth();

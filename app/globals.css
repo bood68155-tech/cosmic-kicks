@@ -232,3 +232,6 @@ body { background: #050508; color: #ededed; font-family: var(--font-body); overf
 .stats-bar { display: flex; flex-wrap: wrap; gap: 3rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 2rem; margin-top: 2rem; }
 .stats-bar__label { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
 .stats-bar__value { font-size: 1.125rem; font-weight: 300; color: rgba(255,255,255,0.6); }
+
+.product-showcase__section--accessories::before { background: radial-gradient(ellipse at 30% 60%, rgba(245,158,11,0.08) 0%, transparent 60%); }
+.product-showcase__overline--accessories { color: rgba(245,158,11,0.5); }

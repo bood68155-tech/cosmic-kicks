@@ -11,6 +11,7 @@ const PRODUCT_CATEGORIES = [
   { id: "origins", overline: "Chapter I", name: "Origins", accent: "rgba(139,92,246,1)", description: "Where it all began. Foundational designs rooted in celestial ambition — forged from the core of dying stars to carry you through the cosmos." },
   { id: "agility", overline: "Chapter II", name: "Agility", accent: "rgba(6,182,212,1)", description: "Engineered for speed. Quantum-woven uppers and zero-gravity soles that respond to your every move." },
   { id: "velocity", overline: "Chapter III", name: "Velocity", accent: "rgba(236,72,153,1)", description: "The apex of performance. Cutting-edge propulsion meets interstellar design — built for those who refuse to be bound by gravity." },
+  { id: "accessories", overline: "Chapter IV", name: "Accessories", accent: "rgba(245,158,11,1)", description: "Gear for the final frontier. Space-themed essentials — backpacks, timepieces and more — built to complete any mission." },
 ];
 
 const CAROUSEL_SLIDES = [
@@ -185,7 +186,7 @@ export default function Home() {
             ════════════════════════════════════════════ */}
         <div className="product-showcase">
           {PRODUCT_CATEGORIES.map((section, sectionIdx) => {
-            const catId = sectionIdx === 0 ? "sneakers" : sectionIdx === 1 ? "classic" : "boots";
+            const catId = sectionIdx === 0 ? "sneakers" : sectionIdx === 1 ? "classic" : sectionIdx === 2 ? "boots" : "accessories";
             const catProducts = products.filter((p) => p.category === catId);
 
             return (

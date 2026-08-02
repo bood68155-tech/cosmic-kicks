@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: 'Sneakers', href: '/#sneakers' },
   { label: 'Classics', href: '/#classics' },
   { label: 'Boots', href: '/#boots' },
+  { label: 'Accessories', href: '/#accessories' },
 ];
 
 export default function Navbar() {

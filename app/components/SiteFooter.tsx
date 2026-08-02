@@ -16,7 +16,7 @@ export default function SiteFooter() {
             <span className="font-heading text-sm font-semibold tracking-wide text-white/60">Cosmic Kicks</span>
           </div>
           <div className="flex items-center gap-6">
-            {['Sneakers', 'Classics', 'Boots'].map((item) => (
+            {['Sneakers', 'Classics', 'Boots', 'Accessories'].map((item) => (
               <Link key={item} href={'/#' + item.toLowerCase()} className="text-[11px] font-medium uppercase tracking-widest text-white/30 transition-colors hover:text-white/50">{item}</Link>
             ))}
             {isAdmin && (

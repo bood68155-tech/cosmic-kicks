@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'sneakers' | 'classic' | 'boots';
+  category: 'sneakers' | 'classic' | 'boots' | 'accessories';
   price: number;
   description: string;
   details: string[];
@@ -309,6 +309,136 @@ export const products: Product[] = [
     accent2: "#4F46E5",
     cosmicTier: "stellar",
   },
+  // ═══════════════════════════════════════════
+  //              ACCESSORIES
+  // ═══════════════════════════════════════════
+
+  {
+    id: 'a1',
+    name: 'Zero-G Utility Backpack',
+    category: 'accessories',
+    price: 120,
+    description: 'A mission-ready backpack engineered for zero-gravity travel. Weatherproof shell, modular straps, and a hidden pocket for your star charts.',
+    details: [
+      'Water-resistant aerospace-grade shell',
+      'Padded 15\" laptop bay with orbit-lock closure',
+      'Modular webbing for extra pouches',
+      'Reflective cosmic stripes for night visibility',
+    ],
+    materials: 'Ballistic nylon, TPU coating, YKK zippers',
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=85',
+    accent: '#8B5CF6',
+    accent2: '#6D28D9',
+    cosmicTier: 'stellar',
+  },
+  {
+    id: 'a2',
+    name: 'Nebula Chrono Watch',
+    category: 'accessories',
+    price: 185,
+    description: 'A celestial timepiece with a dial that mimics a swirling nebula. Solar-powered, water-resistant, and ready for any gravity well.',
+    details: [
+      'Nebula-gradient dial with star dust finish',
+      'Solar-powered movement, no battery needed',
+      'Sapphire crystal, 5 ATM water resistance',
+      'Interchangeable cosmic straps',
+    ],
+    materials: 'Stainless steel, sapphire glass, vegan leather strap',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=85',
+    accent: '#EC4899',
+    accent2: '#DB2777',
+    cosmicTier: 'nebula',
+  },
+  {
+    id: 'a3',
+    name: 'Orbit Hydration Flask',
+    category: 'accessories',
+    price: 35,
+    description: 'Keep your hydration levels stable on long missions. Double-wall vacuum insulation keeps drinks cold for 24 hours or hot for 12.',
+    details: [
+      'Double-wall vacuum insulation',
+      '24h cold / 12h hot retention',
+      'Leak-proof orbit-lock lid',
+      'Powder-coated cosmic gradient finish',
+    ],
+    materials: '18/8 stainless steel, BPA-free lid',
+    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=85',
+    accent: '#06B6D4',
+    accent2: '#0891B2',
+    cosmicTier: 'stellar',
+  },
+  {
+    id: 'a4',
+    name: 'Stellar Drift Cap',
+    category: 'accessories',
+    price: 28,
+    description: 'A breathable, five-panel cap with a subtle constellation embroidery. Designed for long hauls under any sun.',
+    details: [
+      'Five-panel construction with curved brim',
+      'Constellation embroidery in glowing thread',
+      'Moisture-wicking sweatband',
+      'Adjustable cosmic clasp closure',
+    ],
+    materials: 'Cotton twill, brushed metal clasp',
+    image: 'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=85',
+    accent: '#F59E0B',
+    accent2: '#D97706',
+    cosmicTier: 'stellar',
+  },
+  {
+    id: 'a5',
+    name: 'Eclipse Aero Shades',
+    category: 'accessories',
+    price: 65,
+    description: 'Polarized shades engineered for glare-free navigation across alien landscapes. UV400 protection with a featherweight alloy frame.',
+    details: [
+      'Polarized UV400 lenses',
+      'Featherweight aerospace alloy frame',
+      'Anti-scratch, anti-smudge coating',
+      'Includes magnetic cosmic case',
+    ],
+    materials: 'TR90 alloy frame, polarized lenses',
+    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=85',
+    accent: '#1E293B',
+    accent2: '#0F172A',
+    cosmicTier: 'nebula',
+  },
+  {
+    id: 'a6',
+    name: 'Cosmos Boom Headphones',
+    category: 'accessories',
+    price: 95,
+    description: 'Over-ear headphones with deep-space bass and active noise cancellation. Perfect for drowning out the hum of life support systems.',
+    details: [
+      'Active noise cancellation (ANC)',
+      '40mm drivers with deep-space bass',
+      '30-hour battery life',
+      'Foldable design with lunar-gray finish',
+    ],
+    materials: 'Memory foam earcups, matte aluminum, vegan leather',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=85',
+    accent: '#6366F1',
+    accent2: '#4F46E5',
+    cosmicTier: 'supernova',
+  },
+  {
+    id: 'a7',
+    name: 'Lunar Crew Socks (3-Pack)',
+    category: 'accessories',
+    price: 18,
+    description: 'Three pairs of cloud-soft crew socks printed with your favorite celestial bodies. Cushioned soles for zero-gravity comfort.',
+    details: [
+      'Three cosmic patterns: Moon, Mars, Saturn',
+      'Cushioned heel and toe',
+      'Moisture-wicking performance yarn',
+      'One size fits most',
+    ],
+    materials: 'Cotton blend with elastic arch support',
+    image: 'https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=800&q=85',
+    accent: '#10B981',
+    accent2: '#059669',
+    cosmicTier: 'stellar',
+  },
 ];
 
 export const categories = [
@@ -332,5 +462,12 @@ export const categories = [
     tagline: "Terraformed for the unknown.",
     description: "Built for the harshest environments from Martian dust storms to concrete jungles. Unstoppable traction.",
     icon: "🥢",
+  },
+  {
+    id: "accessories",
+    name: "Accessories",
+    tagline: "Gear for the final frontier.",
+    description: "Space-themed essentials to complete your mission — from zero-g backpacks to nebula timepieces.",
+    icon: "🎒",
   },
 ] as const;
