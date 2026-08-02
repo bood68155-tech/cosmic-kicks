@@ -30,7 +30,6 @@ function newOrderId(): string {
   return `ord_${Date.now()}`;
 }
 
-
 type PayMethod = 'paypal' | 'card';
 
 interface OrderRecord {
@@ -157,7 +156,7 @@ function CheckoutContent() {
     setError('');
     try {
       const orderId = newOrderId();
-    const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
