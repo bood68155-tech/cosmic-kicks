@@ -5,7 +5,7 @@ import ProductCard from '@/app/components/ProductCard';
 import NewsletterForm from '@/app/components/NewsletterForm';
 
 
-import { products, categories } from '@/app/data/products';
+import { products } from '@/app/data/products';
 
 const PRODUCT_CATEGORIES = [
   { id: "origins", overline: "Chapter I", name: "Origins", accent: "rgba(139,92,246,1)", description: "Where it all began. Foundational designs rooted in celestial ambition — forged from the core of dying stars to carry you through the cosmos." },
@@ -103,7 +103,7 @@ export default function Home() {
               <div className="field-note">
                 <div className="field-note__header">
                   <span className="field-note__badge">FIELD NOTE</span>
-                  <span className="field-note__title">// ID: NR-7X</span>
+                  <span className="field-note__title">{'// ID: NR-7X'}</span>
                 </div>
                 <div className="field-note__sep" />
                 <div className="field-note__spec">
@@ -223,46 +223,21 @@ export default function Home() {
 
                   {/* Product Grid with staggered reveal */}
                   <div className="product-showcase__grid">
-                    {catProducts.map((product, productIdx) => {
-                      const gradId = `showcase-grad-${product.id}`;
-                      return (
-                        <div
-                          key={product.id}
-                          className={`showcase-card ${visibleSections[section.id] ? "showcase-card--visible" : ""}`}
-                          style={{
-                            transitionDelay: `${0.2 + productIdx * 0.1}s`,
-                            transitionDuration: "0.6s",
-                            transitionProperty: "opacity, transform",
-                            transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-                          }}
-                        >
-                          {/* Glow effect on hover */}
-                          <div
-                            className="showcase-card__glow"
-                            style={{
-                              background: `radial-gradient(circle, ${section.accent}15, transparent 60%)`,
-                            }}
-                          />
-                          {/* Product Image */}
-                          <div className="showcase-card__image">
-                            <img src={product.image} alt={product.name} loading="lazy" />
-                          </div>
-                          {/* Product Info */}
-                          <div className="showcase-card__info">
-                            <h3 className="showcase-card__name">{product.name}</h3>
-                            <div className="showcase-card__meta">
-                              <span className="showcase-card__price">${product.price}</span>
-                              <span
-                                className="showcase-card__tier"
-                                style={{ borderColor: `${product.accent}30`, color: product.accent }}
-                              >
-                                {product.cosmicTier}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {catProducts.map((product, productIdx) => (
+                      <div
+                        key={product.id}
+                        style={{
+                          opacity: visibleSections[section.id] ? 1 : 0,
+                          transform: visibleSections[section.id] ? "translateY(0)" : "translateY(40px)",
+                          transitionDelay: `${0.2 + productIdx * 0.1}s`,
+                          transitionDuration: "0.6s",
+                          transitionProperty: "opacity, transform",
+                          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+                        }}
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </section>
