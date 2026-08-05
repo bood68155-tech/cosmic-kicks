@@ -35,6 +35,23 @@ const TIER_CONFIG: Record<
   },
 };
 
+/**
+ * Keeps price text readable on solid dark cards by brightening
+ * overly dark accent colors toward white.
+ */
+function readablePriceColor(accent: string): string {
+  const hex = accent.replace('#', '');
+  if (hex.length !== 6) return accent;
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  // Clamp keeps already-bright accents unchanged while lifting dark ones.
+  const t = Math.min(1, Math.max(0, (170 - luminance) / (255 - luminance)));
+  const mix = (channel: number) => Math.round(channel + (255 - channel) * t);
+  return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`;
+}
+
 function TierBadge({ tier }: { tier: Product['cosmicTier'] }) {
   const cfg = TIER_CONFIG[tier];
   return (
@@ -81,10 +98,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     <article
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-500 ${
+      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-space-mid p-6 transition-all duration-500 ${
         isHovered
-          ? 'border-white/[0.12] bg-white/[0.04] shadow-2xl translate-y-[-2px]'
-          : 'hover:border-white/[0.08]'
+          ? 'border-white/[0.2] bg-space-light shadow-2xl translate-y-[-2px]'
+          : 'hover:border-white/[0.14]'
       }`}
     >
       {/* Glow effect on hover */}
@@ -134,18 +151,18 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Product info */}
       <div className="relative">
         <div className="mb-2 flex items-start justify-between gap-2">
-          <h3 className="text-base font-semibold text-white/90 transition-colors group-hover:text-white">
+          <h3 className="text-base font-semibold text-white transition-colors group-hover:text-white">
             {product.name}
           </h3>
           <span
             className="shrink-0 text-sm font-bold tabular-nums"
-            style={{ color: product.accent }}
+            style={{ color: readablePriceColor(product.accent) }}
           >
             ${product.price}
           </span>
         </div>
 
-        <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-white/40">
+        <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-white/70">
           {product.description}
         </p>
 
@@ -156,7 +173,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           }`}
         >
           {product.details.slice(0, 4).map((detail, i) => (
-            <div key={i} className="flex items-start gap-2 text-[11px] text-white/50">
+            <div key={i} className="flex items-start gap-2 text-[11px] text-white/70">
               <span
                 className="mt-0.5 block h-1 w-1 shrink-0 rounded-full"
                 style={{ backgroundColor: product.accent }}
@@ -164,7 +181,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               {detail}
             </div>
           ))}
-          <div className="pt-2 text-[10px] italic text-white/30">
+          <div className="pt-2 text-[10px] italic text-white/60">
             {product.materials}
           </div>
         </div>

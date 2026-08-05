@@ -190,7 +190,7 @@ function AdminContent() {
           {filtered.map((product) => (
             <div
               key={product.id}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all hover:border-white/[0.12] hover:bg-white/[0.04]"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-space-mid p-4 transition-all hover:border-white/[0.2] hover:bg-space-light"
             >
               <div className="flex items-start gap-4">
                 <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-white/[0.03]">
@@ -205,7 +205,7 @@ function AdminContent() {
                   <h3 className="truncate text-sm font-semibold text-white">
                     {product.name}
                   </h3>
-                  <p className="mt-0.5 text-xs text-white/40">
+                  <p className="mt-0.5 text-xs text-white/60">
                     {CATS[product.category]} &middot; Tier: {product.cosmicTier}
                   </p>
                   <p className="mt-1 text-lg font-bold tracking-tight text-white">
